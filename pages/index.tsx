@@ -1,7 +1,7 @@
 import {useState } from 'react';
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Box, TextField, Select, MenuItem, Button, InputLabel, FormGroup, Checkbox, Grid } from '@mui/material'
+import { Box, TextField, Select, MenuItem, Button, InputLabel, FormGroup, Checkbox, Grid, Chip, Container, Card, CardContent, Typography, Paper } from '@mui/material'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -14,6 +14,7 @@ const Home: NextPage = () => {
   const [day, setDay] = useState<number[]|[]>([])
   const [month, setMonth] = useState<number[]|[]>([])
   const [runOn, setRunOn] = useState<string[]|[]>([])
+  const [isActive, setIsActive] = useState(false)
 
   const days = [
     'Monday',
@@ -50,26 +51,30 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
+      <Container fixed component={Card}>
+        <CardContent>
+        <Typography variant="h1" component="div" gutterBottom align='center'>
           Welcome to the chores CMS
-        </h1>
+        </Typography>
         <Box
         component="form"
         sx={{
-          '& > :not(style)': { m: 1, width: '70ch' },
+          '& > :not(style)': { m: 1, width: '100ch' },
         }}
         noValidate
         autoComplete="off"
       >
-        <InputLabel htmlFor="task-name">Name</InputLabel>
-        <TextField id="task-name" label="Task Name" variant="outlined" onChange={(e) => setName(e.target.value)} />
+        <InputLabel htmlFor="task-name" required >Name</InputLabel>
+        <TextField id="task-name" label="Task Name" variant="outlined" sx={{ minWidth: '99%' }} required onChange={(e) => setName(e.target.value)} />
         <InputLabel htmlFor="description">Description</InputLabel>
-        <TextField id="description" label="description" variant="outlined" multiline rows={2} onChange={(e) => setDescription(e.target.value)} />
-        <InputLabel htmlFor="effort">Effort</InputLabel>
+        <TextField id="description" label="description" variant="outlined" sx={{ minWidth: '99%' }} multiline rows={2} onChange={(e) => setDescription(e.target.value)} />
+        <InputLabel htmlFor="effort" required>Effort</InputLabel>
         <Select
           id="effort"
           value={effort}
           inputProps={{ 'aria-label': 'Without label' }}
+          required
+          sx={{ minWidth: '99%' }}
           onChange={(e) => setEffort(e.target.value)}
         >
           <MenuItem value={0}>
@@ -85,18 +90,27 @@ const Home: NextPage = () => {
           id="assignee"
           value={assignee}
           inputProps={{ 'aria-label': 'Without label' }}
+          sx={{ minWidth: '99%' }}
           onChange={(e) => setAssignee(e.target.value)}
         >
           <MenuItem value={0}>Unassigned</MenuItem>
           <MenuItem value={16874248}>Alex</MenuItem>
           <MenuItem value={3818316}>Colette</MenuItem>
         </Select><br />
-        <InputLabel htmlFor="frequency">Frequency</InputLabel>
+        <InputLabel htmlFor="frequency" required>Frequency</InputLabel>
         <Select
           id="frequency"
           value={frequency}
           inputProps={{ 'aria-label': 'Without label' }}
-          onChange={(e) => setFrequency(e.target.value)}
+          sx={{ minWidth: '99%' }}
+          required
+          onChange={(e) => {
+            setFrequency(e.target.value)
+            setMonth([])
+            setDay([])
+            setRunOn([])
+            }
+          }
         >
           <MenuItem value={'daily'}>Daily</MenuItem>
           <MenuItem value={'weekly'}>Weekly</MenuItem>
@@ -130,6 +144,7 @@ const Home: NextPage = () => {
             </FormGroup>
           )
         }
+        <br />
         {
           frequency === 'monthly' && (
             <>
@@ -155,6 +170,11 @@ const Home: NextPage = () => {
                   ))
                 }
               </Grid>
+              <Button onClick={
+                () => {
+                  setMonth([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+                }
+              } >Select all</Button> 
             </FormGroup>
             {
               month.length > 0 && (
@@ -162,10 +182,10 @@ const Home: NextPage = () => {
                   <InputLabel htmlFor="select-day">on which day(s)</InputLabel>
                   <Grid container spacing={1} columns={4}>
                     {
-                      Array.from({ length: 32 }, (v, i) => i + 1).map((d, i) => (
+                      Array.from({ length: 31 }, (v, i) => i + 1).map((d, i) => (
                         <Grid item key={i}>
                           <Checkbox
-                            id={`run-on-${i}`}
+                            id={`run-on-${i+1}`}
                             checked={day.includes(d)}
                             onChange={(e) => {
                               if (e.target.checked) {
@@ -176,7 +196,7 @@ const Home: NextPage = () => {
                             }
                           }
                           />
-                          <label htmlFor={`run-on-${i}`}>{i}</label>
+                          <label htmlFor={`run-on-${i+1}`}>{i+1}</label>
                         </Grid>
                       ))                         
                     }
@@ -190,11 +210,27 @@ const Home: NextPage = () => {
         {
           frequency === 'yearly' && (
             <>
+              {
+                runOn.length > 0 && (
+                  <div>
+                    {
+                      runOn.map((d, i) => (
+                        <Chip key={i} label={d} onDelete={() => {
+                          setRunOn(runOn.filter(x => x !== d))
+                        }
+                        } />
+                      ))
+                    }
+                  </div>
+                )
+              }
+              <InputLabel htmlFor="select-month">Run on which month?</InputLabel>
               <Select
                 id="month-of-year"
                 value={month}
                 inputProps={{ 'aria-label': 'Without label' }}
                 onChange={(e) => setMonth(e.target.value)}
+                sx={{ minWidth: '99%' }}
               >
                 {
                   months.map((m, i) => (
@@ -202,11 +238,14 @@ const Home: NextPage = () => {
                   ))
                 }
               </Select>
+              <br />
+              <InputLabel htmlFor="select-month">Add which day?</InputLabel>
               <Select
                 id="day-of-month"
                 value={day}
                 inputProps={{ 'aria-label': 'Without label' }}
                 onChange={(e) => setDay(e.target.value)}
+                sx={{ minWidth: '99%' }}
               >
                 {
                   Array.from({ length: 31 }, (v, i) => i + 1).map((d, i) => (
@@ -214,12 +253,52 @@ const Home: NextPage = () => {
                   ))
                 }
               </Select>
+              <br />
+              <Button variant="contained" color="primary" onClick={() => {
+                setRunOn([...runOn, `${day}-${month}`])
+              }}>Add</Button>
             </>
           )
         }
-
-      </Box>
         
+        <br />
+      </Box>
+      <Box sx={{
+          '& > :not(style)': { m: 1, width: '100ch' },
+        }}>
+        <h2>The following data will be pushed to the database</h2>
+        <Paper variant="outlined" sx={{ minWidth: '99%' }}>
+          <Box p={2} sx={{ minWidth: '99%' }}>
+          <code>
+            {
+              JSON.stringify({
+                name,
+                description,
+                frequency,
+                assignee,
+                'run_on': runOn
+              })
+            }
+          </code>
+          </Box>
+        </Paper>
+        <br />
+        <Button variant="contained" color="primary" sx={{ minWidth: '99%' }} size="large" disabled={
+           name === '' || 
+           effort === 0 || 
+           frequency === '' || 
+           frequency === 'weekly' && runOn.length === 0 ||
+           frequency === 'yearly' && runOn.length === 0 ||
+           frequency === 'monthly' && (month.length === 0) ||
+           frequency === 'monthly' && (day.length === 0)
+          } onClick={
+              () => {
+                setRunOn(() => month.map(m => day.map(d => `${d}/${m}`)).flat())
+              }
+            } >Add Chore</Button>
+        </Box>
+        </CardContent>
+        </Container>
       </main>
     </div>
   )
