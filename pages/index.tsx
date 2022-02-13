@@ -2,9 +2,12 @@ import {useState } from 'react';
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Box, TextField, Select, MenuItem, Button, InputLabel, FormGroup, Checkbox, Grid, Chip, Container, Card, CardContent, Typography, Paper } from '@mui/material'
+import connectToDatabase from '../lib/mongo-connect';
+
 import styles from '../styles/Home.module.css'
 
-const Home: NextPage = () => {
+
+export default function Home({chores}) {
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -14,8 +17,7 @@ const Home: NextPage = () => {
   const [day, setDay] = useState<number[]|[]>([])
   const [month, setMonth] = useState<number[]|[]>([])
   const [runOn, setRunOn] = useState<string[]|[]>([])
-  const [isActive, setIsActive] = useState(false)
-
+  
   const days = [
     'Monday',
     'Tuesday',
@@ -25,6 +27,40 @@ const Home: NextPage = () => {
     'Saturday',
     'Sunday'
   ]
+  
+  const addChore = async () => {
+    setRunOn(() => month.map(m => day.map(d => `${d}/${m}`)).flat())
+    const existingChores = chores.filter(chore => {
+      return chore.content === name
+    })
+    if (existingChores.length > 0) {
+      alert('Chore already exists')
+      return
+    }
+    const newChore = {
+      content: name,
+      // description,
+      project_id: parseInt(process.env.NEXT_PUBLIC_PROJECT_ID),
+      priority: effort,
+      assignee,
+      frequency,
+      run_on: runOn
+    }
+
+    const response = await fetch('/api/add-chore', {
+      method: 'POST',
+      body: JSON.stringify(newChore),
+    })
+
+    const data = await response.json()
+
+    if (data.success) {
+      alert('Chore added')
+    }
+
+  }
+
+  
 
   // Create an array of months with the month name and month number
   const months = [
@@ -274,6 +310,7 @@ const Home: NextPage = () => {
               JSON.stringify({
                 name,
                 description,
+                effort,
                 frequency,
                 assignee,
                 'run_on': runOn
@@ -291,11 +328,7 @@ const Home: NextPage = () => {
            frequency === 'yearly' && runOn.length === 0 ||
            frequency === 'monthly' && (month.length === 0) ||
            frequency === 'monthly' && (day.length === 0)
-          } onClick={
-              () => {
-                setRunOn(() => month.map(m => day.map(d => `${d}/${m}`)).flat())
-              }
-            } >Add Chore</Button>
+          } onClick={addChore} >Add Chore</Button>
         </Box>
         </CardContent>
         </Container>
@@ -304,4 +337,12 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export async function getServerSideProps(_ctx) {
+  let response = await fetch(`${process.env.APP_URL}/api/get-chores`)
+  let chores = await response.json()
+  return {
+    props: {
+      chores
+    }
+  }
+}
