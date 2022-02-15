@@ -1,66 +1,20 @@
 import {useState } from 'react';
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Box, TextField, Select, MenuItem, Button, InputLabel, FormGroup, Checkbox, Grid, Chip, Container, Card, CardContent, Typography, Paper } from '@mui/material'
-import connectToDatabase from '../lib/mongo-connect';
 
 import styles from '../styles/Home.module.css'
 
+const apiRoot = `${process.env.NEXT_PUBLIC_APP_URL}/api`
 
-export default function Home({chores}) {
-
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [effort, setEffort] = useState(0)
-  const [assignee, setAssignee] = useState(0)
-  const [frequency, setFrequency] = useState('daily')
-  const [day, setDay] = useState<number[]|[]>([])
-  const [month, setMonth] = useState<number[]|[]>([])
-  const [runOn, setRunOn] = useState<string[]|[]>([])
-  
-  const days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
-  ]
-  
-  const addChore = async () => {
-    setRunOn(() => month.map(m => day.map(d => `${d}/${m}`)).flat())
-    const existingChores = chores.filter(chore => {
-      return chore.content === name
-    })
-    if (existingChores.length > 0) {
-      alert('Chore already exists')
-      return
-    }
-    const newChore = {
-      content: name,
-      // description,
-      project_id: parseInt(process.env.NEXT_PUBLIC_PROJECT_ID),
-      priority: effort,
-      assignee,
-      frequency,
-      run_on: runOn
-    }
-
-    const response = await fetch('/api/add-chore', {
-      method: 'POST',
-      body: JSON.stringify(newChore),
-    })
-
-    const data = await response.json()
-
-    if (data.success) {
-      alert('Chore added')
-    }
-
-  }
-
-  
+const days = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday'
+]
 
   // Create an array of months with the month name and month number
   const months = [
@@ -77,6 +31,53 @@ export default function Home({chores}) {
     { name: 'November', number: 11, days: 31 },
     { name: 'December', number: 12, days: 31 }
   ]
+
+export default function Home({chores, users}) {
+
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [effort, setEffort] = useState<number>(0)
+  const [assignee, setAssignee] = useState<number>(0)
+  const [exceptionType, setExceptionType] = useState<string>('never')
+  const [existingTask, setExistingTask] = useState<string>('')
+  const [frequency, setFrequency] = useState('daily')
+  const [day, setDay] = useState<number[]|any[]>([])
+  const [month, setMonth] = useState<number[]|any[]>([])
+  const [runOn, setRunOn] = useState<string[]|any[]>([])
+
+  const addChore = async () => {
+    setRunOn(() => month.map(m => day.map(d => `${d}/${m}`)).flat())
+    const existingChores = chores.filter(chore => {
+      return chore.content === name
+    })
+    if (existingChores.length > 0) {
+      alert('Chore already exists')
+      return
+    }
+    const newChore = {
+      content: name,
+      description,
+      project_id: parseInt(process.env.NEXT_PUBLIC_PROJECT_ID),
+      priority: effort,
+      except: `${exceptionType} run if '${existingTask}' exists`,
+      assignee,
+      frequency,
+      run_on: runOn
+    }
+
+
+    const response = await fetch(`${apiRoot}/add-chore`, {
+      method: 'POST',
+      body: JSON.stringify(newChore),
+    })
+
+    const data = await response.json()
+
+    if (data.success) {
+      alert('Chore added')
+    }
+
+  }
 
   return (
     <div className={styles.container}>
@@ -111,7 +112,7 @@ export default function Home({chores}) {
           inputProps={{ 'aria-label': 'Without label' }}
           required
           sx={{ minWidth: '99%' }}
-          onChange={(e) => setEffort(e.target.value)}
+          onChange={(e) => setEffort(e.target.value as number)}
         >
           <MenuItem value={0}>
             <em>Choose effort level</em>
@@ -127,12 +128,41 @@ export default function Home({chores}) {
           value={assignee}
           inputProps={{ 'aria-label': 'Without label' }}
           sx={{ minWidth: '99%' }}
-          onChange={(e) => setAssignee(e.target.value)}
+          onChange={(e) => setAssignee(e.target.value as number)}
         >
           <MenuItem value={0}>Unassigned</MenuItem>
-          <MenuItem value={16874248}>Alex</MenuItem>
-          <MenuItem value={3818316}>Colette</MenuItem>
+          {users.map(user => (
+            <MenuItem key={user.trello_id} value={user.trello_id}>{user.name}</MenuItem>
+          ))}
         </Select><br />
+        { chores.length > 0 &&
+        <>
+          <InputLabel htmlFor="exception">Exceptions</InputLabel>
+          <Select
+            id="exception"
+            value={exceptionType}
+            inputProps={{ 'aria-label': 'Without label' }}
+            sx={{ minWidth: '99%' }}
+            onChange={(e) => setExceptionType(e.target.value as string)}
+          >
+            <MenuItem value={'only'}>Only create task</MenuItem>
+            <MenuItem value={'never'}>Never create task</MenuItem>
+          </Select><br />
+          <InputLabel htmlFor="exception">If the following task exists</InputLabel>
+          <Select
+            id="exception"
+            value={existingTask}
+            inputProps={{ 'aria-label': 'Without label' }}
+            sx={{ minWidth: '99%' }}
+            onChange={(e) => setExistingTask(e.target.value as string)}
+          >
+            <MenuItem value={''}>Select task</MenuItem>
+            {chores.map(chore => {
+              return <MenuItem key={chore.content} value={chore.content}>{chore.content}</MenuItem>
+            })}
+          </Select><br />
+          </>
+        }   
         <InputLabel htmlFor="frequency" required>Frequency</InputLabel>
         <Select
           id="frequency"
@@ -265,7 +295,7 @@ export default function Home({chores}) {
                 id="month-of-year"
                 value={month}
                 inputProps={{ 'aria-label': 'Without label' }}
-                onChange={(e) => setMonth(e.target.value)}
+                onChange={(e) => setMonth([e.target.value])}
                 sx={{ minWidth: '99%' }}
               >
                 {
@@ -280,7 +310,7 @@ export default function Home({chores}) {
                 id="day-of-month"
                 value={day}
                 inputProps={{ 'aria-label': 'Without label' }}
-                onChange={(e) => setDay(e.target.value)}
+                onChange={(e) => setDay([e.target.value])}
                 sx={{ minWidth: '99%' }}
               >
                 {
@@ -338,11 +368,17 @@ export default function Home({chores}) {
 }
 
 export async function getServerSideProps(_ctx) {
-  let response = await fetch(`${process.env.APP_URL}/api/get-chores`)
-  let chores = await response.json()
+  
+  const getData = async (endpoint: string) => {
+    const response = await fetch(`${apiRoot}/${endpoint}`)
+    const res = await response.json()
+    return res
+  }
+  
   return {
     props: {
-      chores
+      chores: await getData('get-chores'),
+      users: await getData('get-users')
     }
   }
 }
