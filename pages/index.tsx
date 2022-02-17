@@ -1,5 +1,5 @@
-import { useState, useContext, useEffect } from 'react';
-import { Container, Paper, Typography} from '@mui/material'
+import { useState } from 'react';
+import { Paper, Typography} from '@mui/material'
 
 /** Import components */
 import ChoresList from '../components/chores-list';
@@ -8,10 +8,16 @@ import ChoreForm from '../components/chore-form';
 /** Import types */
 import { Month } from '../types/month';
 import { Chore } from '../types/chore';
+
+/** Import template */
 import MainTemplate from './templates/main';
+
+/** Import contexts */
 import ModeContext from './contexts/mode-context';
 
-const apiRoot = `${process.env.NEXT_PUBLIC_APP_URL}/api`
+/** Import libs */
+import postToDatabase from '../lib/post-to-database';
+import getData from '../lib/get-from-database';
 
 const days = [
   'Monday',
@@ -39,33 +45,9 @@ const months: Month[] = [
   { name: 'December', number: 12, days: 31 }
 ]
 
-const postToDatabase = async (newChore: Chore, existingChore?:string) => {
+export default function Home(pageProps) {
 
-  const endpoint = existingChore ? `/edit-chore/${existingChore}` : '/add-chore'
-
-  try {
-    const response = await fetch(`${apiRoot}/${endpoint}`, {
-      method: 'POST',
-      body: JSON.stringify(newChore),
-    })
-  
-    const data = await response.json()
-    
-    if (data.success) {
-      alert(`Chore ${existingChore ? 'added' : 'updated'} successfully`)
-    }
-
-    return 'success';
-  } catch (error) {
-    console.error(error)
-    return 'error'
-  }  
-
-}
-
-export default function Home({chores, users}) {
-
-  const { mode, setMode } = useContext(ModeContext)
+  const {users, chores} = pageProps;
 
   const [choresList, setChoresList] = useState<Chore[]>(chores)
 
@@ -109,13 +91,6 @@ export default function Home({chores, users}) {
 }
 
 export async function getServerSideProps(_ctx) {
-  
-  const getData = async (endpoint: string) => {
-    const response = await fetch(`${apiRoot}/${endpoint}`)
-    const res = await response.json()
-    return res
-  }
-  
   return {
     props: {
       chores: await getData('get-chores'),
