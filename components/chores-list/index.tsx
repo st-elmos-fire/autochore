@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled, IconButton, Paper, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow } from '@mui/material';
+import { styled, IconButton, Paper, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Avatar } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
@@ -47,9 +47,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 /* Render component */
 export const ChoresList: React.FC<Props> = ({ chores, users }: Props) => {
 
-  const getUserName = (id: number) => {
+  const getUser = (id: number) => {
     const user = users.find(user => user.todoist_id === id)
-    return user ? user.name : 'Unassigned'
+    return user ? user : {
+      name: 'Unassigned',
+      avatar: null
+    }
   }
 
   return <TableContainer component={Paper}>
@@ -74,7 +77,7 @@ export const ChoresList: React.FC<Props> = ({ chores, users }: Props) => {
               {row.content}
             </StyledTableCell>
             <StyledTableCell>{row.frequency}</StyledTableCell>
-            <StyledTableCell>{getUserName(row.assignee)}</StyledTableCell>
+            <StyledTableCell><Avatar alt={getUser(row.assignee).name} src={getUser(row.assignee).avatar} /></StyledTableCell>
             <StyledTableCell><code>{row.except}</code></StyledTableCell>
             <StyledTableCell>
               <IconButton color="primary" aria-label="edit task" component="span">
