@@ -19,7 +19,7 @@ export interface Props {
   /**
    * The function to call when the button is clicked
    */
-  updateChoresList: (newChore: Chore) => void
+  updateChoresList: (newChore: Chore, existingChore?: string) => void
   /**
    * The users list
    */
@@ -31,12 +31,16 @@ export interface Props {
   /**
    * A list of the months of the year
    * */
-  months: Month[]
+  months: Month[],
+  /**
+   * Update type
+   * */
+  updateType: 'edit' | 'add'
+
 }
 
 /* Render component */
-export const ChoreForm: React.FC<Props> = ({ choresList, updateChoresList, users, days, months  }: Props) => {
-
+export const ChoreForm: React.FC<Props> = ({ choresList, updateChoresList, users, days, months, updateType }: Props) => {
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -74,7 +78,7 @@ export const ChoreForm: React.FC<Props> = ({ choresList, updateChoresList, users
       run_on: runOn
     }
 
-    updateChoresList(newChore);
+    return updateChoresList(newChore);
 
   }
 
