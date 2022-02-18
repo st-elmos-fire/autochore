@@ -16,7 +16,7 @@ import Head from 'next/head';
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { ListAlt, Task } from '@mui/icons-material';
 import { useContext, useState } from 'react';
-import { ModeContext } from '..';
+import { ModeContext } from '../pages';
 
 const drawerWidth: number = 240;
 
