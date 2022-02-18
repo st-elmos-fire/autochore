@@ -3,7 +3,8 @@ export interface Chore {
     description: string,
     project_id: number,
     priority: number,
-    except?: string,
+    exceptionType?: string,
+    existingChore?: string,
     assignee: number,
     frequency: string,
     run_on: string[]

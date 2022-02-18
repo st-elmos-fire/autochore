@@ -13,9 +13,13 @@ import styles from './styles.module.scss'
 /* Prop Types */
 export interface Props {
   /**
-   * The name of the thing
+   * The entire chores list (used in add mode)
    */
-  choresList: Chore[]
+  choresList?: Chore[]
+  /**
+   * Get a single chore (used in edit mode)
+   */
+  chore?: Chore
   /**
    * The function to call when the button is clicked
    */
@@ -40,46 +44,45 @@ export interface Props {
 }
 
 /* Render component */
-export const ChoreForm: React.FC<Props> = ({ choresList, updateChoresList, users, days, months, updateType }: Props) => {
+export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList, users, days, months, updateType }: Props) => {
 
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [effort, setEffort] = useState<number>(0)
-  const [assignee, setAssignee] = useState<number>(0)
-  const [exceptionType, setExceptionType] = useState('none')
-  const [existingTask, setExistingTask] = useState('')
-  const [frequency, setFrequency] = useState('daily')
+  const [name, setName] = useState(chore?.content || '')
+  const [description, setDescription] = useState(chore?.description || '')
+  const [effort, setEffort] = useState<number>(chore?.priority || 0)
+  const [assignee, setAssignee] = useState<number>(chore?.assignee || 0)
+  const [exceptionType, setExceptionType] = useState(chore?.exceptionType || 'none')
+  const [existingChore, setExistingChore] = useState(chore?.existingChore || '')
+  const [frequency, setFrequency] = useState(chore?.frequency || 'daily')
   const [day, setDay] = useState<number[]|any[]>([])
   const [month, setMonth] = useState<number[]|any[]>([])
-  const [runOn, setRunOn] = useState<string[]|any[]>([])
+  const [runOn, setRunOn] = useState<string[]|any[]>(chore?.run_on || [])
 
-  const addChore = async () => {
+  const updateChore = async () => {
     setRunOn(() => month.map(m => day.map(d => `${d}/${m}`)).flat())
     
-    const existingChores = choresList.filter(chore => {
-      return chore.content === name
-    })
-    
-    if (existingChores.length > 0) {
-      alert('Chore already exists')
-      return
+    if (updateType === 'add') {
+      const existingChores = choresList.filter(chore => chore.content === name)
+
+      if (existingChores.length > 0) {
+        alert('Chore already exists')
+        return
+      }
     }
-    
-    // TODO: There is a similar block of code later on, this can be refactored
+        
     const newChore = {
       content: name,
       description,
       project_id: parseInt(process.env.NEXT_PUBLIC_PROJECT_ID),
       priority: effort,
       // TODO exclude this from the API if it's not needed
-      except: exceptionType !== 'none' ? `${exceptionType} run if '${existingTask}' exists` : '',
+      exceptionType,
+      existingChore,
       assignee,
       frequency,
       run_on: runOn
     }
 
     return updateChoresList(newChore);
-
   }
 
   return <>
@@ -92,9 +95,9 @@ export const ChoreForm: React.FC<Props> = ({ choresList, updateChoresList, users
   autoComplete="off"
   >
   <InputLabel htmlFor="task-name" required >Name</InputLabel>
-  <TextField id="task-name" label="Task Name" variant="outlined" sx={{ minWidth: '99%' }} required onChange={(e) => setName(e.target.value)} />
+  <TextField id="task-name" label="Task Name" variant="outlined" sx={{ minWidth: '99%' }} required onChange={(e) => setName(e.target.value)} value={name} />
   <InputLabel htmlFor="description">Description</InputLabel>
-  <TextField id="description" label="description" variant="outlined" sx={{ minWidth: '99%' }} multiline rows={2} onChange={(e) => setDescription(e.target.value)} />
+  <TextField id="description" label="description" variant="outlined" sx={{ minWidth: '99%' }} multiline rows={2} onChange={(e) => setDescription(e.target.value)} value={description} />
   <InputLabel htmlFor="effort" required>Effort</InputLabel>
   <Select
     id="effort"
@@ -136,18 +139,18 @@ export const ChoreForm: React.FC<Props> = ({ choresList, updateChoresList, users
       onChange={(e) => setExceptionType(e.target.value as string)}
     >
       <MenuItem value={'none'}>No exceptions</MenuItem>
-      <MenuItem value={'only'}>Only create task</MenuItem>
-      <MenuItem value={'never'}>Never create task</MenuItem>
+      <MenuItem value={'only'}>Only create chore</MenuItem>
+      <MenuItem value={'never'}>Never create chore</MenuItem>
     </Select><br />
     { exceptionType !== 'none' &&
     <>
-    <InputLabel htmlFor="exception">If the following task exists</InputLabel>
+    <InputLabel htmlFor="exception">If the following chore exists</InputLabel>
     <Select
       id="exception"
-      value={existingTask}
+      value={existingChore}
       inputProps={{ 'aria-label': 'Without label' }}
       sx={{ minWidth: '99%' }}
-      onChange={(e) => setExistingTask(e.target.value as string)}
+      onChange={(e) => setExistingChore(e.target.value as string)}
     >
       <MenuItem value={''}>Select task</MenuItem>
       {choresList.map(chore => {
@@ -327,25 +330,6 @@ export const ChoreForm: React.FC<Props> = ({ choresList, updateChoresList, users
   <Box sx={{
     '& > :not(style)': { m: 1, width: '100ch' },
   }}>
-  <h2>The following data will be pushed to the database</h2>
-  <Paper variant="outlined" sx={{ minWidth: '99%' }}>
-    <Box p={2} sx={{ minWidth: '99%' }}>
-    <code>
-      {
-        JSON.stringify({
-          name,
-          description,
-          effort,
-          except: exceptionType !== 'none' ? `${exceptionType} run if '${existingTask}' exists` : '',
-          frequency,
-          assignee,
-          'run_on': runOn
-        })
-      }
-    </code>
-    </Box>
-  </Paper>
-  <br />
   <Button variant="contained" color="primary" sx={{ minWidth: '99%' }} size="large" disabled={
     name === '' || 
     effort === 0 || 
@@ -354,7 +338,7 @@ export const ChoreForm: React.FC<Props> = ({ choresList, updateChoresList, users
     frequency === 'yearly' && runOn.length === 0 ||
     frequency === 'monthly' && (month.length === 0) ||
     frequency === 'monthly' && (day.length === 0)
-    } onClick={addChore} >Add Chore</Button>
+    } onClick={updateChore} >Add Chore</Button>
   </Box>
   </>
 }

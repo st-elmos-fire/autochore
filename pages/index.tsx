@@ -18,6 +18,7 @@ import ModeContext from './contexts/mode-context';
 /** Import libs */
 import postToDatabase from '../lib/post-to-database';
 import getData from '../lib/get-from-database';
+import deleteFromDatabase from '../lib/delete-from-database';
 
 const days = [
   'Monday',
@@ -58,6 +59,17 @@ export default function Home(pageProps) {
     }
   }
 
+  const editChore = async (chore: Chore) => {
+    return true
+  }
+
+  const deleteChore = async (chore: Chore) => {
+    const response = await deleteFromDatabase(chore)
+    if (response === 'success') {
+      setChoresList(choresList.filter(c => c.content !== chore.content))
+    }
+  }
+
   return (
     <MainTemplate>
       <ModeContext.Consumer>
@@ -68,7 +80,11 @@ export default function Home(pageProps) {
         <Typography variant="h2" component="div" gutterBottom>
           Existing Chores
         </Typography>
-        <ChoresList chores={choresList} users={users} />
+        <Typography variant="body2" component="div" gutterBottom>
+          <p>This is a list of chores templates that have been added to the database. This is a master list and does not reflect the chores that have actually been added to users. </p>
+          <p>Deleting a chore from this list will only prevent it's future creation and will not delete the chore from todoist.</p>
+        </Typography>
+        <ChoresList chores={choresList} users={users} editChore={editChore} deleteChore={deleteChore} />
       </>
       }
       {
@@ -80,6 +96,18 @@ export default function Home(pageProps) {
           padding: '24px',
         }}> 
           <ChoreForm choresList={choresList} users={users} updateChoresList={updateChoresList} days={days} months={months} updateType='add'/>
+        </Paper>
+      </>
+      }
+      {
+        mode === 'add' && <>
+        <Typography variant="h2" component="div" gutterBottom>
+          Edit chore
+        </Typography>
+        <Paper sx={{
+          padding: '24px',
+        }}> 
+          <ChoreForm choresList={choresList} users={users} updateChoresList={updateChoresList} days={days} months={months} updateType='edit'/>
         </Paper>
       </>
       }
