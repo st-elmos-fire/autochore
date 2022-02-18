@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled, IconButton, Paper, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Avatar, Rating, IconContainerProps } from '@mui/material';
+import { styled, IconButton, Paper, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Avatar, Rating, IconContainerProps, Card } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
@@ -99,48 +99,54 @@ export const ChoresList: React.FC<Props> = ({ chores, users, editChore, deleteCh
     return <span {...other}>{customIcons[value].icon}</span>;
   }
 
-  return <TableContainer component={Paper}>
-    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-      <TableHead>
-        <StyledTableRow>
-          <StyledTableCell>Name</StyledTableCell>
-          <StyledTableCell>Exception</StyledTableCell>
-          <StyledTableCell>Frequency</StyledTableCell>
-          <StyledTableCell align="center">Assignee</StyledTableCell>
-          <StyledTableCell align="center">Difficulty</StyledTableCell>
-          <StyledTableCell align="center">Edit</StyledTableCell>
-          <StyledTableCell align="center">Delete</StyledTableCell>
+  const RenderChores = () => 
+  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableHead>
+      <StyledTableRow>
+        <StyledTableCell>Name</StyledTableCell>
+        <StyledTableCell>Exception</StyledTableCell>
+        <StyledTableCell>Frequency</StyledTableCell>
+        <StyledTableCell align="center">Assignee</StyledTableCell>
+        <StyledTableCell align="center">Difficulty</StyledTableCell>
+        <StyledTableCell align="center">Edit</StyledTableCell>
+        <StyledTableCell align="center">Delete</StyledTableCell>
+      </StyledTableRow>
+    </TableHead>
+    <TableBody>
+      {chores.map((chore) => (
+        <StyledTableRow
+          key={chore.content}
+          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+        >
+          <StyledTableCell component="th" scope="row">
+            {chore.content}
+          </StyledTableCell>
+          <StyledTableCell><code>{chore.exceptionType && chore.exceptionType !== 'none' ? `${chore.exceptionType} create chore if '${chore.existingChore}' exists` : 'No exceptions'}</code></StyledTableCell>
+          <StyledTableCell sx={{width: '180px'}}>{chore.frequency}</StyledTableCell>
+          <StyledTableCell sx={{width: '80px'}} align="center"><Avatar alt={getUser(chore.assignee).name} src={getUser(chore.assignee).avatar} sx={{marginLeft: '8px'}}/></StyledTableCell>
+          <StyledTableCell sx={{width: '80px'}} align="center">
+            <IconContainer value={chore.priority} />
+          </StyledTableCell>
+          <StyledTableCell sx={{width: '80px'}} align="center">
+            <IconButton color="primary" aria-label="edit task" component="span" onClick={() => editChore(chore)}>
+              <EditIcon />
+            </IconButton>
+          </StyledTableCell>
+          <StyledTableCell sx={{width: '80px'}} align="center">
+            <IconButton color="primary" aria-label="delete task" component="span" onClick={() => deleteChore(chore)}>
+              <DeleteForeverIcon />
+            </IconButton>
+          </StyledTableCell>
         </StyledTableRow>
-      </TableHead>
-      <TableBody>
-        {chores.map((chore) => (
-          <StyledTableRow
-            key={chore.content}
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-          >
-            <StyledTableCell component="th" scope="row">
-              {chore.content}
-            </StyledTableCell>
-            <StyledTableCell><code>{chore.exceptionType && chore.exceptionType !== 'none' ? `${chore.exceptionType} create chore if '${chore.existingChore}' exists` : 'No exceptions'}</code></StyledTableCell>
-            <StyledTableCell sx={{width: '180px'}}>{chore.frequency}</StyledTableCell>
-            <StyledTableCell sx={{width: '80px'}} align="center"><Avatar alt={getUser(chore.assignee).name} src={getUser(chore.assignee).avatar} sx={{marginLeft: '8px'}}/></StyledTableCell>
-            <StyledTableCell sx={{width: '80px'}} align="center">
-              <IconContainer value={chore.priority} />
-            </StyledTableCell>
-            <StyledTableCell sx={{width: '80px'}} align="center">
-              <IconButton color="primary" aria-label="edit task" component="span" onClick={() => editChore(chore)}>
-                <EditIcon />
-              </IconButton>
-            </StyledTableCell>
-            <StyledTableCell sx={{width: '80px'}} align="center">
-              <IconButton color="primary" aria-label="delete task" component="span" onClick={() => deleteChore(chore)}>
-                <DeleteForeverIcon />
-              </IconButton>
-            </StyledTableCell>
-          </StyledTableRow>
-        ))}
-      </TableBody>
-    </Table>
+      ))}
+    </TableBody>
+  </Table>
+
+
+  return <TableContainer component={Paper}>
+    {
+      chores.length ? <RenderChores /> : <Card sx={{padding: '20px'}}>No chores found</Card>
+    }
   </TableContainer>
 }
 

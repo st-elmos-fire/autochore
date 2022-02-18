@@ -11,15 +11,16 @@ const deleteFromDatabase = async (newChore: Chore) => {
     
       const data = await response.json()
       
-      if (data.success) {
-        alert(`${newChore.content} deleted successfully`)
+      return {
+        status: 'success',
+        message: data.message
       }
-  
-      return 'success';
     } catch (error) {
-      console.error(error)
-      return 'error'
-    }  
+      return {
+        status: 'error',
+        message: error
+      }
+    }
   
   }
 

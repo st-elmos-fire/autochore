@@ -12,15 +12,16 @@ const editInDatabase = async (choreDetails: Chore, existingChore: Chore) => {
     
       const data = await response.json()
       
-      if (data.success) {
-        alert(`${choreDetails.content} edited successfully`)
+      return {
+        status: 'success',
+        message: data.message
       }
-  
-      return 'success';
     } catch (error) {
-      console.error(error)
-      return 'error'
-    }  
+      return {
+        status: 'error',
+        message: error
+      }
+    }
   
   }
 

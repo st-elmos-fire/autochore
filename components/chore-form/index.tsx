@@ -89,10 +89,8 @@ export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList
       existingChore,
       assignee,
       frequency,
-      run_on: stitchedDates || runOn
+      run_on: stitchedDates?.length ? stitchedDates : runOn
     }
-
-    console.table(rollingRunOn)
 
     return updateChoresList(choreDetails, chore);
   }
@@ -216,12 +214,12 @@ export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList
               <Grid item key={i}>
                 <Checkbox
                   id={`run-on-${i}`}
-                  checked={runOn.includes(wd)}
+                  checked={runOn.includes(wd.toLowerCase())}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setRunOn([...runOn, wd])
+                      setRunOn([...runOn, wd.toLowerCase()])
                     } else {
-                      setRunOn(runOn.filter(d => d !== wd))
+                      setRunOn(runOn.filter(d => d !== wd.toLowerCase()))
                     }
                   }}
                 />

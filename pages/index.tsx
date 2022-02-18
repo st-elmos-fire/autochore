@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer, useState } from 'react';
-import { Paper, Typography} from '@mui/material'
+import { Alert, Paper, Snackbar, Typography} from '@mui/material'
 
 /** Import components */
 import ChoresList from '../components/chores-list';
@@ -17,6 +17,7 @@ import postToDatabase from '../lib/post-to-database';
 import getData from '../lib/get-from-database';
 import deleteFromDatabase from '../lib/delete-from-database';
 import editInDatabase from '../lib/edit-in-database';
+import Response from '../types/response';
 
 
 const days = [
@@ -61,16 +62,18 @@ export default function Home(pageProps) {
 
   const [choresList, setChoresList] = useState<Chore[]>(chores)
   const [chore, setChore] = useState<Chore | null>()
-
+  
   const [view, dispatch] = useReducer(reducer, initialState);
+  const [feedback, setFeedback] = useState<Response>(null);
   
   const updateChoresList = async (newChore: Chore, existingChore?: Chore ) => {
     const response = (!existingChore) 
       ? await postToDatabase(newChore)
       : await editInDatabase(newChore, existingChore)
     
-
-    if (response === 'success') {
+      setFeedback(response)
+    
+      if (response.status === 'success') {
       if (!existingChore) {
         setChoresList([...choresList, newChore])
       } else {
@@ -94,7 +97,8 @@ export default function Home(pageProps) {
 
   const deleteChore = async (chore: Chore) => {
     const response = await deleteFromDatabase(chore)
-    if (response === 'success') {
+    setFeedback(response)
+    if (response.status === 'success') {
       setChoresList(choresList.filter(c => c.content !== chore.content))
     }
   }
@@ -103,6 +107,11 @@ export default function Home(pageProps) {
     <ModeContext.Provider value={{ view, dispatch }}>
       <MainTemplate>
         <>
+        <Snackbar open={feedback !== null} autoHideDuration={6000} onClose={() => setFeedback(null)}>
+            <Alert onClose={() => setFeedback(null)} severity={feedback?.status === 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
+              {feedback?.message}
+            </Alert>
+        </Snackbar>
         {
           view === 'view' && <>
           <Typography variant="h2" component="div" gutterBottom>

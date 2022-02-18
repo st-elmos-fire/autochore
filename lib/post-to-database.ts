@@ -13,15 +13,16 @@ const postToDatabase = async (newChore: Chore) => {
       })
     
       const data = await response.json()
-      
-      if (data.success) {
-        alert(`Chore added successfully`)
-      }
   
-      return 'success';
+      return {
+        status: 'success',
+        message: data.message
+      }
     } catch (error) {
-      console.error(error)
-      return 'error'
+      return {
+        status: 'error',
+        message: error
+      }
     }  
   
   }
