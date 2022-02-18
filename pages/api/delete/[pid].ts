@@ -1,15 +1,17 @@
-import connectToDatabase from "../../lib/mongo-connect";
+import connectToDatabase from "../../../lib/mongo-connect";
 
-export default async function addChores(req, res) {
+export default async function deleteChore(req, res) {
     try {
         const { db } = await connectToDatabase();
         const chores = db.collection("chores");
-        const newChore = JSON.parse(req.body);
+    
+        console.log(req);
 
-        await chores.insertOne(newChore);
+        await chores.deleteOne({ content: req.query.pid });
+
         res.json({
             success: true,
-            message: `'${newChore.content}' added successfully`
+            message: `${req.query.pid} deleted successfully`
         });
     } 
     catch (err) {
