@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer, useState } from 'react';
+import { createContext, useReducer, useState } from 'react';
 import { Alert, Paper, Snackbar, Typography} from '@mui/material'
 
 /** Import components */
@@ -10,7 +10,7 @@ import { Month } from '../types/month';
 import { Chore } from '../types/chore';
 
 /** Import template */
-import MainTemplate from './templates/main';
+import MainTemplate from '../templates/main';
 
 /** Import libs */
 import postToDatabase from '../lib/post-to-database';
@@ -71,7 +71,7 @@ export default function Home(pageProps) {
       ? await postToDatabase(newChore)
       : await editInDatabase(newChore, existingChore)
     
-      setFeedback(response)
+      setFeedback(response as Response)
     
       if (response.status === 'success') {
       if (!existingChore) {
@@ -97,7 +97,7 @@ export default function Home(pageProps) {
 
   const deleteChore = async (chore: Chore) => {
     const response = await deleteFromDatabase(chore)
-    setFeedback(response)
+    setFeedback(response as Response)
     if (response.status === 'success') {
       setChoresList(choresList.filter(c => c.content !== chore.content))
     }
