@@ -5,9 +5,16 @@ export default async function editChore(req, res) {
         const { db } = await connectToDatabase();
         const chores = db.collection("chores");
     
-        console.log(req.body);
+        const body = JSON.parse(req.body);
 
-        // await chores.deleteOne({ content: req.query.pid });
+        await chores.updateOne(
+            { content: req.query.pid },
+            { $set: body },
+            { upsert: true },
+            (err: unknown) => {
+               if (err) return console.log(err);
+            }
+        );
 
         res.json({
             success: true,

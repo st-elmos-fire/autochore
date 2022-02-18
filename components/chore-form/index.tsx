@@ -1,14 +1,11 @@
 import { Container, Card, CardContent, Typography, Box, InputLabel, TextField, Select, MenuItem, FormGroup, Grid, Checkbox, Button, Chip, Paper } from '@mui/material'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 /* Import Types */
 import { Chore } from '../../types/chore'
 import { Month } from '../../types/month'
 import { User } from '../../types/user'
-
-/* Import Stylesheet */
-import styles from './styles.module.scss'
 
 /* Prop Types */
 export interface Props {
@@ -23,7 +20,7 @@ export interface Props {
   /**
    * The function to call when the button is clicked
    */
-  updateChoresList: (newChore: Chore, existingChore?: string) => void
+  updateChoresList: (newChore: Chore, existingChore?: Chore) => void
   /**
    * The users list
    */
@@ -43,6 +40,8 @@ export interface Props {
 
 }
 
+// TODO: REFACTOR: This page is chaos, it should be split into multiple components
+
 /* Render component */
 export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList, users, days, months, updateType }: Props) => {
 
@@ -56,10 +55,12 @@ export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList
   const [day, setDay] = useState<number[]|any[]>([])
   const [month, setMonth] = useState<number[]|any[]>([])
   const [runOn, setRunOn] = useState<string[]|any[]>(chore?.run_on || [])
-
+  const [rollingRunOn, setRollingRunOn] = useState({
+    day: null,
+    month: null,
+  })
+  
   const updateChore = async () => {
-    setRunOn(() => month.map(m => day.map(d => `${d}/${m}`)).flat())
-    
     if (updateType === 'add') {
       const existingChores = choresList.filter(chore => chore.content === name)
 
@@ -68,22 +69,46 @@ export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList
         return
       }
     }
+    
+    let stitchedDates = []
+
+    if (rollingRunOn.month && rollingRunOn.day) {
+      stitchedDates = rollingRunOn.month.map(m => {
+        return rollingRunOn.day.map(d => {
+          return `${d}/${m}`
+        })
+      }).flat()
+    }
         
-    const newChore = {
+    const choreDetails = {
       content: name,
       description,
       project_id: parseInt(process.env.NEXT_PUBLIC_PROJECT_ID),
       priority: effort,
-      // TODO exclude this from the API if it's not needed
       exceptionType,
       existingChore,
       assignee,
       frequency,
-      run_on: runOn
+      run_on: stitchedDates || runOn
     }
 
-    return updateChoresList(newChore);
+    console.table(rollingRunOn)
+
+    return updateChoresList(choreDetails, chore);
   }
+
+  useEffect(() => {
+    if (frequency === 'monthly') {
+      const m = runOn.map(r => parseInt(r.split('/')[1]))
+      const d = runOn.map(r => parseInt(r.split('/')[0]))
+      setMonth(() => m)
+      setDay(() => d)
+      setRollingRunOn({
+        day: Array.from( new Set(d)),
+        month: Array.from( new Set(m))
+      })
+    }
+  }, [frequency, runOn])
 
   return <>
   <Box
@@ -110,10 +135,10 @@ export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList
     <MenuItem value={0}>
       <em>Choose effort level</em>
     </MenuItem>
-    <MenuItem value={1}>Super easy</MenuItem>
-    <MenuItem value={2}>Pretty easy</MenuItem>
-    <MenuItem value={3}>Kinda difficult</MenuItem>
-    <MenuItem value={4}>Not fun at all</MenuItem>
+    <MenuItem value={4}>Super easy</MenuItem>
+    <MenuItem value={3}>Pretty easy</MenuItem>
+    <MenuItem value={2}>Kinda difficult</MenuItem>
+    <MenuItem value={1}>Not fun at all</MenuItem>
   </Select><br />
   <InputLabel htmlFor="assignee">Assignee</InputLabel>
   <Select
@@ -216,22 +241,31 @@ export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList
         <InputLabel htmlFor="select-month">Run on which month(s)</InputLabel>
         <Grid container spacing={1} columns={4}>
           {
-            months.map((m, i) => (
-              <Grid item key={i}>
+            months.map((m, i) => {
+              return <Grid item key={i}>
                 <Checkbox
                   id={`run-on-${i}`}
                   checked={month.includes(m.number)}
                   onChange={(e) => {
                     if (e.target.checked) {
                       setMonth([...month, m.number])
+                      setRollingRunOn({
+                        ...rollingRunOn,
+                        month: [...rollingRunOn.month, m.number]
+                      })
                     } else {
                       setMonth(month.filter(d => d !== m.number))
+                      setRollingRunOn({
+                        ...rollingRunOn,
+                        month: rollingRunOn.month.filter(d => d !== m.number)
+                      })
                     }
+
                   }
                 } />
                 <label htmlFor={`run-on-${i}`}>{m.name}</label>
                 </Grid>
-            ))
+            })      
           }
         </Grid>
         <Button onClick={
@@ -254,8 +288,16 @@ export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList
                       onChange={(e) => {
                         if (e.target.checked) {
                           setDay([...day, d])
+                          setRollingRunOn({
+                            ...rollingRunOn,
+                            day: [...rollingRunOn.day, d]
+                          })
                         } else {
-                          setDay(day.filter(x => x !== day))
+                          setDay(day.filter(x => x !== d))
+                          setRollingRunOn({
+                            ...rollingRunOn,
+                            day: rollingRunOn.day.filter(x => x !== d)
+                          })
                         }
                       }
                     }
@@ -280,6 +322,7 @@ export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList
               {
                 runOn.map((d, i) => (
                   <Chip key={i} label={d} onDelete={() => {
+                    console.log(d)
                     setRunOn(runOn.filter(x => x !== d))
                   }
                   } />
@@ -319,7 +362,7 @@ export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList
         </Select>
         <br />
         <Button variant="contained" color="primary" onClick={() => {
-          setRunOn([...runOn, `${day}-${month}`])
+          setRunOn([...runOn, `${day}/${month}`])
         }}>Add</Button>
       </>
     )

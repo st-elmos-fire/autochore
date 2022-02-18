@@ -16,6 +16,7 @@ import MainTemplate from './templates/main';
 import postToDatabase from '../lib/post-to-database';
 import getData from '../lib/get-from-database';
 import deleteFromDatabase from '../lib/delete-from-database';
+import editInDatabase from '../lib/edit-in-database';
 
 
 const days = [
@@ -59,18 +60,32 @@ export default function Home(pageProps) {
   const {users, chores} = pageProps;
 
   const [choresList, setChoresList] = useState<Chore[]>(chores)
-  
-
-  
   const [chore, setChore] = useState<Chore | null>()
+
   const [view, dispatch] = useReducer(reducer, initialState);
   
-  const updateChoresList = async (newChore: Chore, existingChore?:string) => {
-    const response = await postToDatabase(newChore, existingChore)
+  const updateChoresList = async (newChore: Chore, existingChore?: Chore ) => {
+    const response = (!existingChore) 
+      ? await postToDatabase(newChore)
+      : await editInDatabase(newChore, existingChore)
+    
+
     if (response === 'success') {
-      setChoresList(choresList.concat(newChore))
+      if (!existingChore) {
+        setChoresList([...choresList, newChore])
+      } else {
+        const updatedChoresList = choresList.map(chore => {
+          if (chore.content === existingChore.content) {
+            return newChore
+          }
+          return chore
+        })
+        setChoresList(updatedChoresList)
+        dispatch('VIEW')
+      }
     }
   }
+
 
   const editChore = async (chore: Chore) => {
     dispatch('UPDATE')
