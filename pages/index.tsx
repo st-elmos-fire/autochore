@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { createContext, useContext, useEffect, useReducer, useState } from 'react';
 import { Paper, Typography} from '@mui/material'
 
 /** Import components */
@@ -12,13 +12,11 @@ import { Chore } from '../types/chore';
 /** Import template */
 import MainTemplate from './templates/main';
 
-/** Import contexts */
-import ModeContext from './contexts/mode-context';
-
 /** Import libs */
 import postToDatabase from '../lib/post-to-database';
 import getData from '../lib/get-from-database';
 import deleteFromDatabase from '../lib/delete-from-database';
+
 
 const days = [
   'Monday',
@@ -46,12 +44,27 @@ const months: Month[] = [
   { name: 'December', number: 12, days: 31 }
 ]
 
+export const ModeContext = createContext(null);
+
+const initialState = 'view'
+
+const reducer = (view: string, action: string) => {
+  if (!view) return initialState;
+  if (view === action.toLowerCase()) return view;
+  return action.toLowerCase()
+}
+
 export default function Home(pageProps) {
 
   const {users, chores} = pageProps;
 
   const [choresList, setChoresList] = useState<Chore[]>(chores)
+  
 
+  
+  const [chore, setChore] = useState<Chore | null>()
+  const [view, dispatch] = useReducer(reducer, initialState);
+  
   const updateChoresList = async (newChore: Chore, existingChore?:string) => {
     const response = await postToDatabase(newChore, existingChore)
     if (response === 'success') {
@@ -60,7 +73,8 @@ export default function Home(pageProps) {
   }
 
   const editChore = async (chore: Chore) => {
-    return true
+    dispatch('UPDATE')
+    setChore(choresList.find(c => c.content === chore.content))    
   }
 
   const deleteChore = async (chore: Chore) => {
@@ -71,50 +85,48 @@ export default function Home(pageProps) {
   }
 
   return (
-    <MainTemplate>
-      <ModeContext.Consumer>
-        {({mode}) => (
-          <>
-      {
-        mode === 'view' && <>
-        <Typography variant="h2" component="div" gutterBottom>
-          Existing Chores
-        </Typography>
-        <Typography variant="body2" component="div" gutterBottom>
-          <p>This is a list of chores templates that have been added to the database. This is a master list and does not reflect the chores that have actually been added to users. </p>
-          <p>Deleting a chore from this list will only prevent it's future creation and will not delete the chore from todoist.</p>
-        </Typography>
-        <ChoresList chores={choresList} users={users} editChore={editChore} deleteChore={deleteChore} />
-      </>
-      }
-      {
-        mode === 'add' && <>
-        <Typography variant="h2" component="div" gutterBottom>
-          Add new chores
-        </Typography>
-        <Paper sx={{
-          padding: '24px',
-        }}> 
-          <ChoreForm choresList={choresList} users={users} updateChoresList={updateChoresList} days={days} months={months} updateType='add'/>
-        </Paper>
-      </>
-      }
-      {
-        mode === 'add' && <>
-        <Typography variant="h2" component="div" gutterBottom>
-          Edit chore
-        </Typography>
-        <Paper sx={{
-          padding: '24px',
-        }}> 
-          <ChoreForm choresList={choresList} users={users} updateChoresList={updateChoresList} days={days} months={months} updateType='edit'/>
-        </Paper>
-      </>
-      }
-      </>
-        )}
-      </ModeContext.Consumer>
-    </MainTemplate>
+    <ModeContext.Provider value={{ view, dispatch }}>
+      <MainTemplate>
+        <>
+        {
+          view === 'view' && <>
+          <Typography variant="h2" component="div" gutterBottom>
+            Existing Chores
+          </Typography>
+          <Typography variant="body2" component="div" gutterBottom>
+            <p>This is a list of chores templates that have been added to the database. This is a master list and does not reflect the chores that have actually been added to users. </p>
+            <p>Deleting a chore from this list will only prevent it&apos;s future creation and will not delete the chore from todoist.</p>
+          </Typography>
+          <ChoresList chores={choresList} users={users} editChore={editChore} deleteChore={deleteChore} />
+        </>
+        }
+        {
+          view === 'add' && <>
+          <Typography variant="h2" component="div" gutterBottom>
+            Add new chores
+          </Typography>
+          <Paper sx={{
+            padding: '24px',
+          }}> 
+            <ChoreForm choresList={choresList} users={users} updateChoresList={updateChoresList} days={days} months={months} updateType='add'/>
+          </Paper>
+        </>
+        }
+        {
+          view === 'update' && <>
+          <Typography variant="h2" component="div" gutterBottom>
+            Update {chore?.content}
+          </Typography>
+          <Paper sx={{
+            padding: '24px',
+          }}> 
+            <ChoreForm choresList={choresList} chore={chore} users={users} updateChoresList={updateChoresList} days={days} months={months} updateType='update'/>
+          </Paper>
+        </>
+        }
+        </>
+      </MainTemplate>
+    </ModeContext.Provider>
   )
 }
 

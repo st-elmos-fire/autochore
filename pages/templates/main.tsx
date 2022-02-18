@@ -15,9 +15,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Head from 'next/head';
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { ListAlt, Task } from '@mui/icons-material';
-import { useState } from 'react';
-import ModeContext from '../contexts/mode-context';
-
+import { useContext, useState } from 'react';
+import { ModeContext } from '..';
 
 const drawerWidth: number = 240;
 
@@ -74,93 +73,93 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   interface Props {
     children: React.ReactNode;
   }
+
+  const MainTemplate: React.FC<Props> = ({children}) => {
+    const [open, setOpen] = useState(true);
+    const toggleDrawer = () => {
+      setOpen(!open);
+    };
+    
+  const { dispatch } = useContext(ModeContext);
   
-const MainTemplate: React.FC<Props> = ({children}) => {
-  const [open, setOpen] = useState(true);
-  const [mode, setMode] = useState<'view' | 'add'>('view');
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
 
   return (
-    <ThemeProvider theme={mdTheme}>
-      <Head>
-        <title>Chores CMS</title>
-        <meta name="description" content="Add your chores here!" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-        <ModeContext.Provider value={{mode}}>
-          <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <AppBar position="absolute" open={open}>
-              <Toolbar sx={{pr: '24px'}}>
-                <IconButton edge="start" color="inherit" aria-label="open drawer"
-                  onClick={toggleDrawer}
+      <ThemeProvider theme={mdTheme}>
+        <Head>
+          <title>Chores CMS</title>
+          <meta name="description" content="Add your chores here!" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+            <Box sx={{ display: 'flex' }}>
+              <CssBaseline />
+              <AppBar position="absolute" open={open}>
+                <Toolbar sx={{pr: '24px'}}>
+                  <IconButton edge="start" color="inherit" aria-label="open drawer"
+                    onClick={toggleDrawer}
+                    sx={{
+                      marginRight: '36px',
+                      ...(open && { display: 'none' }),
+                    }}
+                    >
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+                    Chores CMS
+                  </Typography>
+                </Toolbar>
+              </AppBar>
+              <Drawer variant="permanent" open={open}>
+                <Toolbar
                   sx={{
-                    marginRight: '36px',
-                    ...(open && { display: 'none' }),
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                    px: [1],
                   }}
                   >
-                  <MenuIcon />
-                </IconButton>
-                <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-                  Chores CMS
-                </Typography>
-              </Toolbar>
-            </AppBar>
-            <Drawer variant="permanent" open={open}>
-              <Toolbar
+                  <IconButton onClick={toggleDrawer}>
+                    <ChevronLeftIcon />
+                  </IconButton>
+                </Toolbar>
+                <Divider />
+                <List>
+                  <ListItem disablePadding>
+                    <ListItemButton onClick={(e) => dispatch('VIEW')}>
+                      <ListItemIcon>
+                        <ListAlt />
+                      </ListItemIcon>
+                      <ListItemText primary="View chores list" />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton onClick={(e) => dispatch('ADD')}>
+                      <ListItemIcon>
+                        <Task />
+                      </ListItemIcon>
+                      <ListItemText primary="Add new chore  " />
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              </Drawer>
+              <Box
+                component="main"
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  px: [1],
+                  backgroundColor: (theme) =>
+                  theme.palette.mode === 'light'
+                  ? theme.palette.grey[100]
+                  : theme.palette.grey[900],
+                  flexGrow: 1,
+                  height: '100vh',
+                  overflow: 'auto',
                 }}
                 >
-                <IconButton onClick={toggleDrawer}>
-                  <ChevronLeftIcon />
-                </IconButton>
-              </Toolbar>
-              <Divider />
-              <List>
-                <ListItem disablePadding>
-                  <ListItemButton onClick={() => setMode('view')}>
-                    <ListItemIcon>
-                      <ListAlt />
-                    </ListItemIcon>
-                    <ListItemText primary="View chores list" />
-                  </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                  <ListItemButton onClick={() => setMode('add')}>
-                    <ListItemIcon>
-                      <Task />
-                    </ListItemIcon>
-                    <ListItemText primary="Add new chore  " />
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </Drawer>
-            <Box
-              component="main"
-              sx={{
-                backgroundColor: (theme) =>
-                theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-                flexGrow: 1,
-                height: '100vh',
-                overflow: 'auto',
-              }}
-              >
-              <Toolbar />
-              <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                  {children}
-              </Container>
+                <Toolbar />
+                <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                    {children}
+                </Container>
+              </Box>
             </Box>
-          </Box>
-        </ModeContext.Provider>
-    </ThemeProvider>
+      </ThemeProvider>
   );
 }
 

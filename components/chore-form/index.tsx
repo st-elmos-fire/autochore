@@ -15,7 +15,7 @@ export interface Props {
   /**
    * The entire chores list (used in add mode)
    */
-  choresList?: Chore[]
+  choresList: Chore[]
   /**
    * Get a single chore (used in edit mode)
    */
@@ -39,7 +39,7 @@ export interface Props {
   /**
    * Update type
    * */
-  updateType: 'edit' | 'add'
+  updateType: 'update' | 'add'
 
 }
 
@@ -338,7 +338,7 @@ export const ChoreForm: React.FC<Props> = ({ choresList, chore, updateChoresList
     frequency === 'yearly' && runOn.length === 0 ||
     frequency === 'monthly' && (month.length === 0) ||
     frequency === 'monthly' && (day.length === 0)
-    } onClick={updateChore} >Add Chore</Button>
+    } onClick={updateChore} >{updateType} Chore</Button>
   </Box>
   </>
 }
