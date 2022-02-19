@@ -3,7 +3,6 @@ import { styled, IconButton, Paper, Table, TableBody, TableCell, tableCellClasse
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
@@ -12,11 +11,6 @@ import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfi
 // Import types
 import { Chore } from '../../types/chore';
 import { User } from '../../types/user';
-
-/* Import Stylesheet */
-import styles from './styles.module.scss'
-
-
 
 /* Prop Types */
 export interface Props {
