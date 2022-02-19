@@ -1,10 +1,10 @@
 /* global it expect */
 
-import React from 'react'
+import React from 'react';
 import { render } from '@testing-library/react';
 
 // Import component files
-import SideNavigation from './index'
+import SideNavigation from './index';
 
 // Tests
 describe('SideNavigation component', () => {

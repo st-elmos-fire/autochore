@@ -22,8 +22,8 @@ The application is built using the following technologies:
 
 This is a pre-MVP application. The following features are planned for the future:
 
-- [ ] Authentication so that we can have multiple users.  
-- [ ] Direct integration with Todoist (currently done via node-red).  
-- [ ] A way for users to add settings (e.g. select todoist project).  
-- [ ] A leaderboard to show who is doing the most chores.  
+- [ ] Authentication so that we can have multiple users.
+- [ ] Direct integration with Todoist (currently done via node-red).
+- [ ] A way for users to add settings (e.g. select todoist project).
+- [ ] A leaderboard to show who is doing the most chores.
 - [ ] A chores log to show what has been done.

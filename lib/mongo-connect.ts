@@ -5,40 +5,38 @@ const MONGODB_DB = process.env.MONGODB_DB;
 
 // check the MongoDB URI
 if (!MONGODB_URI) {
-    throw new Error('Define the MONGODB_URI environmental variable');
+  throw new Error('Define the MONGODB_URI environmental variable');
 }
 
 // check the MongoDB DB
 if (!MONGODB_DB) {
-    throw new Error('Define the MONGODB_DB environmental variable');
+  throw new Error('Define the MONGODB_DB environmental variable');
 }
 
 let cachedClient = null;
 let cachedDb = null;
 
 export default async function connectToDatabase() {
-    // check the cached.
-    if (cachedClient && cachedDb) {
-        // load from cache
-        return {
-            client: cachedClient,
-            db: cachedDb,
-        };
-    }
-
-    // Connect to cluster
-    let client = new MongoClient(MONGODB_URI);
-    await client.connect();
-    console.log('Connected to MongoDB');
-    let db = client.db(MONGODB_DB);
-
-
-    // set cache
-    cachedClient = client;
-    cachedDb = db;
-
+  // check the cached.
+  if (cachedClient && cachedDb) {
+    // load from cache
     return {
-        client: cachedClient,
-        db: cachedDb,
+      client: cachedClient,
+      db: cachedDb
     };
+  }
+
+  // Connect to cluster
+  const client = new MongoClient(MONGODB_URI);
+  await client.connect();
+  const db = client.db(MONGODB_DB);
+
+  // set cache
+  cachedClient = client;
+  cachedDb = db;
+
+  return {
+    client: cachedClient,
+    db: cachedDb
+  };
 }

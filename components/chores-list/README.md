@@ -19,11 +19,11 @@ The 'Chores List' component.
 ### ES6 Import
 
 ```js
-import ChoresList from './chores-list'
+import ChoresList from './chores-list';
 ```
 
 ### CommonJS
 
 ```js
-const ChoresList = require('./chores-list')
+const ChoresList = require('./chores-list');
 ```
