@@ -19,11 +19,11 @@ The 'Chore Form' component.
 ### ES6 Import
 
 ```js
-import ChoreForm from './chore-form'
+import ChoreForm from './chore-form';
 ```
 
 ### CommonJS
 
 ```js
-const ChoreForm = require('./chore-form')
+const ChoreForm = require('./chore-form');
 ```

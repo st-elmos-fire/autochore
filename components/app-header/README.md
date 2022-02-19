@@ -19,11 +19,11 @@ The 'App Header' component.
 ### ES6 Import
 
 ```js
-import AppHeader from './app-header'
+import AppHeader from './app-header';
 ```
 
 ### CommonJS
 
 ```js
-const AppHeader = require('./app-header')
+const AppHeader = require('./app-header');
 ```

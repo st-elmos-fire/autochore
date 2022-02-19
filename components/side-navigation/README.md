@@ -19,11 +19,11 @@ The 'Side Navigation' component.
 ### ES6 Import
 
 ```js
-import SideNavigation from './side-navigation'
+import SideNavigation from './side-navigation';
 ```
 
 ### CommonJS
 
 ```js
-const SideNavigation = require('./side-navigation')
+const SideNavigation = require('./side-navigation');
 ```

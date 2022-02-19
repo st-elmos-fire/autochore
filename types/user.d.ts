@@ -1,5 +1,5 @@
 export interface User {
-    todoist_id: number;
-    name: string;
-    avatar: string;
+  todoist_id: number;
+  name: string;
+  avatar: string;
 }

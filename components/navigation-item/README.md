@@ -19,11 +19,11 @@ The 'Navigation Item' component.
 ### ES6 Import
 
 ```js
-import NavigationItem from './navigation-item'
+import NavigationItem from './navigation-item';
 ```
 
 ### CommonJS
 
 ```js
-const NavigationItem = require('./navigation-item')
+const NavigationItem = require('./navigation-item');
 ```
