@@ -36,13 +36,14 @@ workflows:
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
   build:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore: master
   deploy:
     jobs:
       - docker/publish:
-          image: DOCKER_IMAGE_NAME 
-          docker-username: DOCKER_USERNAME 
-          docker-password: DOCKER_PASSWORD
+          image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
           filters:
             branches:
               only: master
