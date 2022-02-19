@@ -1,8 +1,9 @@
-import { Toolbar, IconButton, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, styled } from '@mui/material'
-import MuiDrawer from '@mui/material/Drawer';
+import { Toolbar, IconButton, Divider, List, ListItemButton, ListItemIcon, ListItemText, styled } from '@mui/material'
+import MuiDrawer, { DrawerProps } from '@mui/material/Drawer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { ListAlt, Task } from '@mui/icons-material';
 import React from 'react'
+import NavigationItem from '../navigation-item';
 
 /* Prop Types */
 export interface Props {
@@ -24,35 +25,38 @@ export interface Props {
   drawerWidth: number
 }
 
-/* Render component */
-export const SideNavigation: React.FC<Props> = ({ open, dispatch, toggleDrawer, drawerWidth }: Props) => {
+interface StyledDrawerProps extends DrawerProps {
+  drawerWidth?: number;
+}
 
-
-  const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-      '& .MuiDrawer-paper': {
-        position: 'relative',
-        whiteSpace: 'nowrap',
-        width: drawerWidth,
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })<StyledDrawerProps>(
+  ({ theme, open, drawerWidth }) => ({
+    '& .MuiDrawer-paper': {
+      position: 'relative',
+      whiteSpace: 'nowrap',
+      width: drawerWidth,
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      boxSizing: 'border-box',
+      ...(!open && {
+        overflowX: 'hidden',
         transition: theme.transitions.create('width', {
           easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
+          duration: theme.transitions.duration.leavingScreen,
         }),
-        boxSizing: 'border-box',
-        ...(!open && {
-          overflowX: 'hidden',
-          transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-          }),
-          width: theme.spacing(7),
-          [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
-          },
-        }),
-      },
-    }),
-  );
+        width: theme.spacing(7),
+        [theme.breakpoints.up('sm')]: {
+          width: theme.spacing(9),
+        },
+      }),
+    },
+  }),
+);
+
+/* Render component */
+export const SideNavigation: React.FC<Props> = ({ open, dispatch, toggleDrawer, drawerWidth }: Props) => {
 
   return <Drawer variant="permanent" open={open}>
     <Toolbar
@@ -69,22 +73,8 @@ export const SideNavigation: React.FC<Props> = ({ open, dispatch, toggleDrawer, 
     </Toolbar>
     <Divider />
     <List>
-      <ListItem disablePadding>
-        <ListItemButton onClick={(e) => dispatch('VIEW')}>
-          <ListItemIcon>
-            <ListAlt />
-          </ListItemIcon>
-          <ListItemText primary="View chores list" />
-        </ListItemButton>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemButton onClick={(e) => dispatch('ADD')}>
-          <ListItemIcon>
-            <Task />
-          </ListItemIcon>
-          <ListItemText primary="Add new chore  " />
-        </ListItemButton>
-      </ListItem>
+      <NavigationItem dispatch={() => dispatch('VIEW')} icon={<ListAlt />} label="View chores list" />
+      <NavigationItem dispatch={() => dispatch('ADD')} icon={<Task />} label="Add new chore" />
     </List>
   </Drawer>
 }
