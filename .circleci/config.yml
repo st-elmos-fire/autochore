@@ -42,9 +42,9 @@ jobs:
 
       # build and push Docker image
       - run: |
-          docker build -t foxleigh81/autochore:latest .
+          docker build -t foxleigh81/autochore:latest -t foxleigh81/autochore:pre-alpha .
           echo $DOCKER_PASSWORD | docker login -u foxleigh81 --password-stdin
-          docker push foxleigh81/autochore:latest
+          docker push foxleigh81/autochore -a
 
 workflows:
   # Below is the definition of your workflow.
