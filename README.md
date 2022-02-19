@@ -1,7 +1,7 @@
 # AutoChore
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/9fa11f65bbb6c9916ca8/maintainability)](https://codeclimate.com/github/foxleigh81/chores-cms/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/9fa11f65bbb6c9916ca8/test_coverage)](https://codeclimate.com/github/foxleigh81/chores-cms/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/87aff158548341b6ca95/maintainability)](https://codeclimate.com/github/foxleigh81/autochore/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/87aff158548341b6ca95/test_coverage)](https://codeclimate.com/github/foxleigh81/autochore/test_coverage)
 
 AutoChore is a tool for automating the creation of Chores, it integrates with Todoist to allow you to easily
 create repeating tasks and assign them to your team.
