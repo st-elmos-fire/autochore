@@ -43,9 +43,7 @@ workflows:
   deploy:
     jobs:
       - docker/publish:
-          image: ${DOCKER_IMAGE_NAME}
-          docker-username: ${DOCKER_USERNAME}
-          docker-password: ${DOCKER_PASSWORD}
+          image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
           filters:
             branches:
               only: master
