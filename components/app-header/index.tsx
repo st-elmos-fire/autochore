@@ -2,6 +2,7 @@ import { Toolbar, IconButton, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
+import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import React from 'react'
 
 /* Prop Types */
@@ -17,12 +18,12 @@ export interface Props {
   /**
    * How wide should the drawer be?
    */
-   drawerWidth?: number;
+   drawerWidth: number;
 }
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
-  drawerWidth?: number;
+  drawerWidth: number;
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -56,9 +57,8 @@ export const AppHeader: React.FC<Props> = ({ open, toggleDrawer, drawerWidth }: 
       >
       <MenuIcon />
     </IconButton>
-    <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-      Chores CMS
-    </Typography>
+    <LocalLaundryServiceIcon fontSize="large" sx={{marginRight: '15px'}} />
+    <Typography component="h1" variant="h5" color="inherit" noWrap sx={{ flexGrow: 1 }}> AutoChore </Typography>
   </Toolbar>
 </AppBar>
 

@@ -36,7 +36,7 @@ const MainTemplate: React.FC<Props> = ({children}) => {
       </Head>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppHeader open={open} toggleDrawer={toggleDrawer} />
+        <AppHeader open={open} toggleDrawer={toggleDrawer} drawerWidth={drawerWidth} />
         <SideNavigation open={open} dispatch={dispatch} toggleDrawer={toggleDrawer} drawerWidth={drawerWidth} />
         <Box
           component="main"

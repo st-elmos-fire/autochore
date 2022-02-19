@@ -58,7 +58,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 /* Render component */
 export const SideNavigation: React.FC<Props> = ({ open, dispatch, toggleDrawer, drawerWidth }: Props) => {
 
-  return <Drawer variant="permanent" open={open}>
+  return <Drawer variant="permanent" open={open} drawerWidth={drawerWidth}>
     <Toolbar
       sx={{
         display: 'flex',
