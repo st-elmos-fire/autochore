@@ -42,9 +42,9 @@ workflows:
   deploy:
     jobs:
       - docker/publish:
-          image: $DOCKER_IMAGE_NAME 
-          docker-username: $DOCKER_USERNAME 
-          docker-password: $DOCKER_PASSWORD
+          image: DOCKER_IMAGE_NAME 
+          docker-username: DOCKER_USERNAME 
+          docker-password: DOCKER_PASSWORD
           filters:
           branches:
             only: master
