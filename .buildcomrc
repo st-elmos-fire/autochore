@@ -9,11 +9,7 @@ use_jest: true
 # Filename format for test files can be either 'spec' or 'test', outputs as index.[choice].[ext].
 test_file_name: 'test'
 # Output a stylesheet?
-output_stylesheets: true
-# Specify the CSS preproccessor to use, e.g. 'sass', 'less', 'stylus', 'scss', or 'none'.
-css_preprocessor: 'scss'
-# use the CSS module format?
-css_modules: true
+output_stylesheets: fales
 # Output component types in their own subfolder (will output in the components index file if false).
 create_types_subfolder: false
 # Generate a README.md file for each component.
