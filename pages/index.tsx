@@ -107,47 +107,47 @@ export default function Home(pageProps) {
     <ModeContext.Provider value={{ view, dispatch }}>
       <MainTemplate>
         <>
-        <Snackbar open={feedback !== null} autoHideDuration={6000} onClose={() => setFeedback(null)}>
-            <Alert onClose={() => setFeedback(null)} severity={feedback?.status === 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
-              {feedback?.message}
-            </Alert>
-        </Snackbar>
-        {
-          view === 'view' && <>
-          <Typography variant="h2" component="div" gutterBottom>
-            Existing Chores
-          </Typography>
-          <Typography variant="body2" component="div" gutterBottom>
-            <p>This is a list of chores templates that have been added to the database. This is a master list and does not reflect the chores that have actually been added to users. </p>
-            <p>Deleting a chore from this list will only prevent it&apos;s future creation and will not delete the chore from todoist.</p>
-          </Typography>
-          <ChoresList chores={choresList} users={users} editChore={editChore} deleteChore={deleteChore} />
-        </>
-        }
-        {
-          view === 'add' && <>
-          <Typography variant="h2" component="div" gutterBottom>
-            Add new chores
-          </Typography>
-          <Paper sx={{
-            padding: '24px',
-          }}> 
-            <ChoreForm choresList={choresList} users={users} updateChoresList={updateChoresList} days={days} months={months} updateType='add'/>
-          </Paper>
-        </>
-        }
-        {
-          view === 'update' && <>
-          <Typography variant="h2" component="div" gutterBottom>
-            Update {chore?.content}
-          </Typography>
-          <Paper sx={{
-            padding: '24px',
-          }}> 
-            <ChoreForm choresList={choresList} chore={chore} users={users} updateChoresList={updateChoresList} days={days} months={months} updateType='update'/>
-          </Paper>
-        </>
-        }
+          <Snackbar open={feedback !== null} autoHideDuration={6000} onClose={() => setFeedback(null)}>
+              <Alert onClose={() => setFeedback(null)} severity={feedback?.status === 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
+                {feedback?.message}
+              </Alert>
+          </Snackbar>
+          {
+            view === 'view' && <>
+              <Typography variant="h2" component="div" gutterBottom>
+                Existing Chores
+              </Typography>
+              <Typography variant="body2" component="div" gutterBottom>
+                <p>This is a list of chores templates that have been added to the database. This is a master list and does not reflect the chores that have actually been added to users. </p>
+                <p>Deleting a chore from this list will only prevent it&apos;s future creation and will not delete the chore from todoist.</p>
+              </Typography>
+              <ChoresList chores={choresList} users={users} editChore={editChore} deleteChore={deleteChore} />
+            </>
+          }
+          {
+            view === 'add' && <>
+              <Typography variant="h2" component="div" gutterBottom>
+                Add new chores
+              </Typography>
+              <Paper sx={{
+                padding: '24px',
+              }}> 
+                <ChoreForm choresList={choresList} users={users} updateChoresList={updateChoresList} days={days} months={months} updateType='add'/>
+              </Paper>
+            </>
+          }
+          {
+            view === 'update' && <>
+              <Typography variant="h2" component="div" gutterBottom>
+                Update {chore?.content}
+              </Typography>
+              <Paper sx={{
+                padding: '24px',
+              }}> 
+                <ChoreForm choresList={choresList} chore={chore} users={users} updateChoresList={updateChoresList} days={days} months={months} updateType='update'/>
+              </Paper>
+            </>
+          }
         </>
       </MainTemplate>
     </ModeContext.Provider>
