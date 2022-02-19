@@ -7,7 +7,6 @@ orbs:
   # Orbs reduce the amount of configuration required for common tasks.
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@4.7
-  docker: circleci/docker@2.0.2
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
@@ -28,6 +27,25 @@ jobs:
       - run:
           name: Check that the project builds
           command: yarn build
+  deploy:
+    docker:
+      - image: cimg/node:16.10
+        auth:
+          username: foxleigh81
+          password: $DOCKER_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
+
+      # build and push Docker image
+      - run: |
+          TAG=$CIRCLE_BUILD_NUM
+          docker build -t foxleigh81/autochore:$TAG .
+          echo $DOCKER_PASSWORD | docker login -u foxleigh81 --password-stdin
+          docker push foxleigh81/autochore:$TAG
 
 workflows:
   # Below is the definition of your workflow.
@@ -42,8 +60,7 @@ workflows:
               ignore: master
   deploy:
     jobs:
-      - docker/publish:
-          image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+      - deploy:
           filters:
             branches:
               only: master
