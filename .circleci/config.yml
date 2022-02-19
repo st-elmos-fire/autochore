@@ -42,10 +42,9 @@ jobs:
 
       # build and push Docker image
       - run: |
-          TAG=$CIRCLE_BUILD_NUM
-          docker build -t foxleigh81/autochore:$TAG .
+          docker build -t foxleigh81/autochore:latest .
           echo $DOCKER_PASSWORD | docker login -u foxleigh81 --password-stdin
-          docker push foxleigh81/autochore:$TAG
+          docker push foxleigh81/autochore:latest
 
 workflows:
   # Below is the definition of your workflow.
