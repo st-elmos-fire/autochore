@@ -67,6 +67,35 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
+const customIcons: {
+  [index: string]: {
+    icon: React.ReactElement;
+    label: string;
+  };
+} = {
+  4: {
+    icon: <SentimentDissatisfiedIcon sx={{ color: '#DE1842' }} />,
+    label: 'Difficult'
+  },
+  3: {
+    icon: <SentimentSatisfiedIcon sx={{ color: '#EDBF31' }} />,
+    label: 'Medium'
+  },
+  2: {
+    icon: <SentimentSatisfiedAltIcon sx={{ color: '#B7DE18' }} />,
+    label: 'Easy'
+  },
+  1: {
+    icon: <SentimentVerySatisfiedIcon sx={{ color: '#31ED95' }} />,
+    label: 'Super easy, barely an inconvenience'
+  }
+};
+
+function IconContainer(props: IconContainerProps) {
+  const { value, ...other } = props;
+  return <span {...other}>{customIcons[value].icon}</span>;
+}
+
 /* Render component */
 export const ChoresList: React.FC<Props> = ({
   chores,
@@ -84,34 +113,11 @@ export const ChoresList: React.FC<Props> = ({
         };
   };
 
-  const customIcons: {
-    [index: string]: {
-      icon: React.ReactElement;
-      label: string;
-    };
-  } = {
-    4: {
-      icon: <SentimentDissatisfiedIcon sx={{ color: '#DE1842' }} />,
-      label: 'Difficult'
-    },
-    3: {
-      icon: <SentimentSatisfiedIcon sx={{ color: '#EDBF31' }} />,
-      label: 'Medium'
-    },
-    2: {
-      icon: <SentimentSatisfiedAltIcon sx={{ color: '#B7DE18' }} />,
-      label: 'Easy'
-    },
-    1: {
-      icon: <SentimentVerySatisfiedIcon sx={{ color: '#31ED95' }} />,
-      label: 'Super easy, barely an inconvenience'
+  const confirmDelete = (chore: Chore) => {
+    if (window.confirm(`Are you sure you want to delete ${chore.content}?`)) {
+      deleteChore(chore);
     }
   };
-
-  function IconContainer(props: IconContainerProps) {
-    const { value, ...other } = props;
-    return <span {...other}>{customIcons[value].icon}</span>;
-  }
 
   const RenderChores = () => (
     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -173,7 +179,7 @@ export const ChoresList: React.FC<Props> = ({
                   color="primary"
                   aria-label="delete task"
                   component="span"
-                  onClick={() => deleteChore(chore)}
+                  onClick={() => confirmDelete(chore)}
                 >
                   <DeleteForeverIcon />
                 </IconButton>
