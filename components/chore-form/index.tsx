@@ -8,7 +8,7 @@ import {
   Grid,
   Checkbox,
   Button,
-  Chip,
+  Chip
 } from '@mui/material';
 
 import React, { useEffect, useState } from 'react';
@@ -180,10 +180,10 @@ export const ChoreForm: React.FC<Props> = ({
           <MenuItem value={0}>
             <em>Choose effort level</em>
           </MenuItem>
-          <MenuItem value={4}>Super easy</MenuItem>
-          <MenuItem value={3}>Pretty easy</MenuItem>
-          <MenuItem value={2}>Kinda difficult</MenuItem>
-          <MenuItem value={1}>Not fun at all</MenuItem>
+          <MenuItem value={1}>Super easy</MenuItem>
+          <MenuItem value={2}>Pretty easy</MenuItem>
+          <MenuItem value={3}>Kinda difficult</MenuItem>
+          <MenuItem value={4}>Not fun at all</MenuItem>
         </Select>
         <br />
         <InputLabel htmlFor="assignee">Assignee</InputLabel>
