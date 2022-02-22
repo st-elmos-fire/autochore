@@ -1,0 +1,95 @@
+{
+  "components": {
+    "schema": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "The id of the user (MongoDB ObjectId)",
+            "example": "620b6b9fe3d44cba581f59fc",
+            "readOnly": true,
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the user",
+            "example": "John Doe"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "The avatar of the user",
+            "example": "https://avatars.dicebear.com/v2/jdoe.svg"
+          },
+          "todoist_id": {
+            "type": "integer",
+            "description": "The todoist id of the user",
+            "example": 123456789
+          }
+        }
+      },
+      "Chore": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The id of the chore (MongoDB ObjectId)",
+            "example": "620b6b9fe3d44cba581f59fc"
+          },
+          "content": {
+            "type": "string",
+            "description": "The name of the chore",
+            "example": "Clean the kitchen"
+          },
+          "description": {
+            "type": "string",
+            "description": "Extended information about the chore",
+            "example": "Wipe the counters, clean the sink, and wash the dishes"
+          },
+          "project_id": {
+            "type": "integer",
+            "description": "The id of the project the chore belongs to in todoist",
+            "example": 123456789
+          },
+          "priority": {
+            "type": "integer",
+            "description": "The difficulty level of the chore (maps to todoist priority in reverse order (1 = easiest 4 = hardest))",
+            "example": 4
+          },
+          "exceptionType": {
+            "type": "string",
+            "description": "Can be 'only', 'never' or 'none'. Works in tandem with existingChore to determine if the chore should be run",
+            "example": "only"
+          },
+          "existingChore": {
+            "type": "string",
+            "description": "The name of the chore that the above exceptionType is based on",
+            "example": "Clean the kitchen"
+          },
+          "assignee": {
+            "type": "integer",
+            "description": "The todoist id of the user that the chore should be assigned to",
+            "example": 123456789
+          },
+          "frequency": {
+            "type": "string",
+            "description": "The frequency of the chore (daily, weekly, monthly, yearly)",
+            "example": "weekly"
+          },
+          "run_on": {
+            "type": "array",
+            "description": "The day(s) of the week/month/year the chore should be run on",
+            "example": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

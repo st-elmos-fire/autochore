@@ -34,12 +34,21 @@ module.exports = {
       ]
     }
   ],
+
   env: {
     browser: true,
     node: true
   },
   ignorePatterns: ['**/venv/*'],
   rules: {
-    'react/prop-types': [2, { ignore: ['children'] }]
+    'react/prop-types': [2, { ignore: ['children'] }],
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_'
+      }
+    ]
   }
 };
