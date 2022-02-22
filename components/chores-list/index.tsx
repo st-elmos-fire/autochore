@@ -130,7 +130,7 @@ export const ChoresList: React.FC<Props> = ({
         {
           // I'm gonna fix this in a future PR so I'm ignoring it for now so the build passes
           /* eslint-disable-next-line */
-          chores.map((chore) => 
+          chores.map((chore) => (
             <StyledTableRow
               key={chore.content}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -179,8 +179,8 @@ export const ChoresList: React.FC<Props> = ({
                 </IconButton>
               </StyledTableCell>
             </StyledTableRow>
-        )
-      }
+          ))
+        }
       </TableBody>
     </Table>
   );

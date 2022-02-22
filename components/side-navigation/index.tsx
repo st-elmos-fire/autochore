@@ -1,10 +1,4 @@
-import {
-  Toolbar,
-  IconButton,
-  Divider,
-  List,
-  styled
-} from '@mui/material';
+import { Toolbar, IconButton, Divider, List, styled } from '@mui/material';
 import MuiDrawer, { DrawerProps } from '@mui/material/Drawer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { ListAlt, Task } from '@mui/icons-material';
