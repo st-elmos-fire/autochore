@@ -90,19 +90,19 @@ export const ChoresList: React.FC<Props> = ({
       label: string;
     };
   } = {
-    1: {
+    4: {
       icon: <SentimentDissatisfiedIcon sx={{ color: '#DE1842' }} />,
       label: 'Difficult'
     },
-    2: {
+    3: {
       icon: <SentimentSatisfiedIcon sx={{ color: '#EDBF31' }} />,
       label: 'Medium'
     },
-    3: {
+    2: {
       icon: <SentimentSatisfiedAltIcon sx={{ color: '#B7DE18' }} />,
       label: 'Easy'
     },
-    4: {
+    1: {
       icon: <SentimentVerySatisfiedIcon sx={{ color: '#31ED95' }} />,
       label: 'Super easy, barely an inconvenience'
     }
