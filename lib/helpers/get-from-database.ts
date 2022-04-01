@@ -1,4 +1,4 @@
-const apiRoot = process.env.API_ROOT;
+const apiRoot = `${process.env.NEXT_PUBLIC_APP_URL}/api`;
 
 const getData = async (endpoint: string) => {
   const response = await fetch(`${apiRoot}/${endpoint}`);

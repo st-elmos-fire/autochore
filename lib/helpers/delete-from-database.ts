@@ -1,6 +1,6 @@
 import { Chore } from '../types/chore';
 
-const apiRoot = `${process.env.NEXT_PUBLIC_APP_URL}/api`;
+const apiRoot = process.env.API_ROOT;
 
 const deleteFromDatabase = async (newChore: Chore) => {
   try {

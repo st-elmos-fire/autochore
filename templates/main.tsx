@@ -12,7 +12,7 @@ import { ModeContext } from '../pages';
 import SideNavigation from '../components/side-navigation';
 import AppHeader from '../components/app-header';
 
-const drawerWidth: number = 240;
+const drawerWidth = 240;
 
 const mdTheme = createTheme();
 interface Props {

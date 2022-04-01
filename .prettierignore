@@ -22,8 +22,5 @@ jest.config.js
 *.yml
 *.yaml
 
-# Stylesheets (handled by stylelint)
-*.scss
-
 #Auto-generated files
 *.modules.scss.d.ts

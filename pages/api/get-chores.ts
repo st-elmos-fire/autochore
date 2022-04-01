@@ -1,4 +1,4 @@
-import connectToDatabase from '../../lib/mongo-connect';
+import connectToDatabase from '@helpers/mongo-connect';
 
 const getChores = async (req, res) => {
   const { db } = await connectToDatabase();

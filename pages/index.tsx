@@ -2,22 +2,22 @@ import React, { createContext, useReducer, useState } from 'react';
 import { Alert, Paper, Snackbar, Typography } from '@mui/material';
 
 /** Import components */
-import ChoresList from '../components/chores-list';
-import ChoreForm from '../components/chore-form';
+import ChoresList from '@components/chores-list';
+import ChoreForm from '@components/chore-form';
 
 /** Import types */
-import { Month } from '../types/month';
-import { Chore } from '../types/chore';
+import { Month } from '@typedefs/month';
+import { Chore } from '@typedefs/chore';
 
 /** Import template */
 import MainTemplate from '../templates/main';
 
 /** Import libs */
-import postToDatabase from '../lib/post-to-database';
-import getData from '../lib/get-from-database';
-import deleteFromDatabase from '../lib/delete-from-database';
-import editInDatabase from '../lib/edit-in-database';
-import Response from '../types/response';
+import postToDatabase from '@helpers/post-to-database';
+import getData from '@helpers/get-from-database';
+import deleteFromDatabase from '@helpers/delete-from-database';
+import editInDatabase from '@helpers/edit-in-database';
+import Response from '@typedefs/response';
 
 const days = [
   'Monday',

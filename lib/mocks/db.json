@@ -1,0 +1,79 @@
+{
+  "simple-array": [1, 2, 3, 4, 5],
+  "en-test-data": [
+    {
+      "id": 1,
+      "name": "USS Enterprise",
+      "model": "NCC-1701",
+      "captain": "James T. Kirk",
+      "launched": 2245,
+      "class": "Constitution",
+      "status": "scuttled"
+    },
+    {
+      "id": 2,
+      "name": "USS Enterprise D",
+      "model": "NCC-1701-D",
+      "captain": "Jean-Luc Picard",
+      "launched": 2371,
+      "class": "Galaxy",
+      "status": "destroyed"
+    },
+    {
+      "id": 3,
+      "name": "USS Voyager",
+      "model": "NCC-74656",
+      "captain": "Kathryn Janeway",
+      "launched": 2371,
+      "class": "Intrepid",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "name": "USS Discovery",
+      "model": "NCC-1031",
+      "captain": "Gabriel Lorca",
+      "launched": 2256,
+      "class": "Crossfield",
+      "status": "lost"
+    }
+  ],
+  "fr-test-data": [
+    {
+      "id": 1,
+      "name": "USS Enterprise",
+      "model": "NCC-1701",
+      "captain": "James T. Kirk",
+      "launched": 2245,
+      "class": "Constitution",
+      "status": "sabordé"
+    },
+    {
+      "id": 2,
+      "name": "USS Enterprise D",
+      "model": "NCC-1701-D",
+      "captain": "Jean-Luc Picard",
+      "launched": 2371,
+      "class": "Galaxy",
+      "status": "détruit"
+    },
+    {
+      "id": 3,
+      "name": "USS Voyager",
+      "model": "NCC-74656",
+      "captain": "Kathryn Janeway",
+      "launched": 2371,
+      "class": "Intrepid",
+      "status": "actif"
+    },
+    {
+      "id": 4,
+      "name": "USS Discovery",
+      "model": "NCC-1031",
+      "captain": "Gabriel Lorca",
+      "launched": 2256,
+      "class": "Crossfield",
+      "status": "disparu"
+    }
+  ]
+}

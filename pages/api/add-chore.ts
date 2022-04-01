@@ -1,4 +1,4 @@
-import connectToDatabase from '../../lib/mongo-connect';
+import connectToDatabase from '@helpers/mongo-connect';
 
 export default async function addChores(req, res) {
   try {

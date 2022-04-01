@@ -4,9 +4,9 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
-    'plugin:testing-library/react',
     'plugin:jest-dom/recommended',
-    'next'
+    'plugin:prettier/recommended',
+    'plugin:storybook/recommended'
   ],
   parserOptions: {
     ecmaVersion: 2020,
@@ -28,18 +28,25 @@ module.exports = {
       },
       extends: [
         'plugin:react/recommended',
-        'plugin:@typescript-eslint/recommended',
-        'prettier',
-        'eslint-config-prettier'
+        'plugin:@typescript-eslint/recommended'
       ]
+    },
+    {
+      files: ['**/*.json'],
+      extends: ['plugin:json/recommended']
     }
   ],
   env: {
     browser: true,
     node: true
   },
-  ignorePatterns: ['**/venv/*'],
+  ignorePatterns: ['**/venv/*, **/*.test.*, **/*.spec.*'],
   rules: {
-    'react/prop-types': [2, { ignore: ['children'] }]
+    'react/prop-types': [
+      2,
+      {
+        ignore: ['children']
+      }
+    ]
   }
 };
