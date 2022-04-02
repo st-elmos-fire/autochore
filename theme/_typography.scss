@@ -1,0 +1,123 @@
+@use 'spacing';
+@use '@fontsource/open-sans/scss/mixins' as OpenSans;
+
+@include OpenSans.fontFace(
+  $weight: 300,
+  $display: 'fallback',
+  $fontName: 'OpenSansLight'
+);
+@include OpenSans.fontFace($weight: 400, $display: 'fallback');
+@include OpenSans.fontFace(
+  $weight: 400,
+  $style: italic,
+  $display: 'fallback',
+  $fontName: 'OpenSansItalic'
+);
+@include OpenSans.fontFace(
+  $weight: 600,
+  $display: 'fallback',
+  $fontName: 'OpenSansBold'
+);
+
+$heading-extra-large: 4.2rem;
+$heading-large: 3.4rem;
+$heading-medium: 2.4rem;
+$heading-small: 2rem;
+$subtitle1: 1.6rem;
+$subtitle2: 1.4rem;
+$button-text: 1.4rem;
+$body-text: 1.6rem;
+$small-body: 1.2rem;
+
+@mixin heading-extra-large {
+  font-family: OpenSansBold, sans-serif;
+  font-size: $heading-extra-large;
+  letter-spacing: -1px;
+  line-height: 5.6rem;
+}
+
+@mixin heading-large {
+  font-family: OpenSansBold, sans-serif;
+  font-size: $heading-large;
+  letter-spacing: -1px;
+  line-height: 4.8rem;
+}
+
+@mixin heading-medium {
+  font-family: OpenSans, sans-serif;
+  font-size: $heading-medium;
+  letter-spacing: -0.25px;
+  line-height: 3.2rem;
+}
+
+@mixin heading-small {
+  font-family: OpenSansBold, sans-serif;
+  font-size: $heading-small;
+  line-height: 2.4rem;
+}
+
+@mixin subtitle1 {
+  font-family: OpenSansBold, sans-serif;
+  font-size: $subtitle1;
+  line-height: 1.6rem;
+}
+
+@mixin subtitle2 {
+  font-family: OpenSansBold, sans-serif;
+  font-size: $subtitle2;
+  line-height: 1.6rem;
+}
+
+@mixin button-text {
+  font-family: OpenSansBold, sans-serif;
+  font-size: $button-text;
+  line-height: 2.4rem;
+}
+
+@mixin body-text {
+  font-family: OpenSansLight, sans-serif;
+  font-size: $body-text;
+  line-height: 2.125rem;
+}
+
+@mixin small-body {
+  font-family: OpenSans, sans-serif;
+  font-size: $small-body;
+  line-height: 2rem;
+}
+
+.heading-extra-large {
+  @include heading-extra-large;
+}
+
+.heading-large {
+  @include heading-large;
+}
+
+.heading-medium {
+  @include heading-medium;
+}
+
+.heading-small {
+  @include heading-small;
+}
+
+.subtitle1 {
+  @include subtitle1;
+}
+
+.subtitle2 {
+  @include subtitle2;
+}
+
+.button-text {
+  @include button-text;
+}
+
+.body-text {
+  @include body-text;
+}
+
+.small-body {
+  @include small-body;
+}

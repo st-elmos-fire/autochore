@@ -1,0 +1,42 @@
+@use '../vars' as *;
+
+@mixin base-input() {
+  background-color: $col-background;
+  border: 1px solid $col-neutral;
+  border-radius: $border-radius;
+  color: $col-body-text;
+  font-size: $fs-body-text;
+  height: 40px;
+  margin: 0;
+  outline: 0;
+  padding: padding(0.6) padding(1.2);
+  transition: box-shadow 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  &:disabled {
+    border-color: lighten($col-neutral, 20%);
+    box-shadow: none;
+    color: lighten($col-neutral, 20%);
+  }
+
+  &:read-only {
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    box-shadow:
+      0 0 0 1px rgba($col-action-text, 0.5) inset,
+      0 0 0 1px rgba($col-primary, 0.5),
+      0 0 0 4px rgba($col-primary-fade, 0.5);
+  }
+}
+
+@mixin base-input-label() {
+  @include fs-small-body();
+
+  line-height: 1.4rem;
+}
+
+@mixin checkbox-input() {
+  display: inline-block;
+  margin-right: margin(1);
+}

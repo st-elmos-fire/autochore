@@ -1,0 +1,38 @@
+/* Background */
+$background: hsl(0, 0%, 100%);
+
+/* Brand Colours */
+$primary: hsl(204, 54%, 46%);
+$secondary: hsl(219, 100%, 14%);
+
+/* Dark and light base colours */
+$darkest: hsl(0, 0%, 7%);
+$neutral: rgb(128, 128, 128);
+$lightest: hsl(0, 0%, 100%);
+
+/* Typography */
+$body-text: hsl(180, 4%, 5%);
+$body-text-light: hsl(203, 9%, 34%);
+
+/* Links */
+
+$link: hsl(202, 100%, 33%);
+$link-hover: hsl(328, 51%, 32%);
+$link-visited: hsl(267, 100%, 22%);
+$link-focus-bg: hsl(45, 100%, 51%);
+
+/* Actions */
+
+$action: $link;
+$action-hover: darken($action, 10%);
+$action-active: lighten($action, 10%);
+$action-text: $lightest;
+$action-disabled: hsl(0, 0%, 26%);
+$action-disabled: hsl(0, 0%, 12%);
+
+/* Statuses */
+
+$warning: hsl(45, 100%, 51%);
+$success: hsl(152, 100%, 22%);
+$danger: hsl(8, 77%, 47%);
+$info: hsl(194, 100%, 36%);
