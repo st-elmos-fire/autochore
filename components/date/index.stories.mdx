@@ -1,0 +1,33 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import Date from './index';
+
+<Meta title="atom/Date" component={Date} />
+
+# Date
+
+The description for the Date component
+
+<Canvas withSource="open">
+  <Story name="Example-1">
+    <Date name="Test Name" colour="blue">
+      Hello World
+    </Date>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Example-2">
+    <Date name="Test Name" colour="red">
+      Hello World
+    </Date>
+  </Story>
+  <Story name="Example-2-variant">
+    <Date name="Test Name" colour="green">
+      Hello World
+    </Date>
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable of={Date} />

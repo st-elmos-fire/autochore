@@ -1,0 +1,30 @@
+.avatar {
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  height: 100%;
+  overflow: hidden;
+
+  .image {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .initials {
+    background-color: $col-primary;
+    height: 100%;
+    width: 100%;
+  }
+
+  svg {
+    height: 100%;
+    width: 100%;
+  }
+
+  text {
+    dominant-baseline: middle;
+    fill: $col-lightest;
+    font-weight: bold;
+    text-anchor: middle;
+  }
+}

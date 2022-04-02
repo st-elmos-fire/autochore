@@ -1,0 +1,13 @@
+.chores-table {
+  width: 100%;
+
+  thead {
+    background-color: $col-primary;
+    color: $col-lightest;
+  }
+
+  td,
+  th {
+    padding: padding(0.5);
+  }
+}

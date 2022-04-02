@@ -9,13 +9,16 @@ module.exports = {
   core: {
     builder: 'webpack5'
   },
-  stories: ['.docs/**/*.stories.mdx', '../components/**/*.stories.mdx'],
+  stories: ['../components/**/*.stories.mdx'],
   addons: [
     '@storybook/addon-docs',
     '@storybook/addon-viewport',
     'storybook-dark-mode'
   ],
-  staticDirs: [{ from: '../public', to: '/public' }],
+  staticDirs: [
+    { from: '../public', to: '/public' },
+    { from: '../lib/mocks', to: '/mocks' }
+  ],
   features: {
     postcss: false
   },

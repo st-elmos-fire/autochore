@@ -1,0 +1,33 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import Input from './index';
+
+<Meta title="atom/Input" component={Input} />
+
+# Input
+
+The description for the Input component
+
+<Canvas withSource="open">
+  <Story name="Example-1">
+    <Input name="Test Name" colour="blue">
+      Hello World
+    </Input>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Example-2">
+    <Input name="Test Name" colour="red">
+      Hello World
+    </Input>
+  </Story>
+  <Story name="Example-2-variant">
+    <Input name="Test Name" colour="green">
+      Hello World
+    </Input>
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable of={Input} />

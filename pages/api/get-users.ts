@@ -1,11 +1,12 @@
-import connectToDatabase from '@helpers/mongo-connect';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import prisma from '@helpers/prisma';
 
-const getUsers = async (req, res) => {
-  const { db } = await connectToDatabase();
-
-  const users = await db.collection('users').find({}).toArray();
-
-  res.json(users);
-};
-
-export default getUsers;
+// POST /api/user
+// Required fields in body: name, email
+export default async function handle(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const result = await prisma.users.findMany();
+  res.json(result);
+}

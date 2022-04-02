@@ -1,0 +1,20 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import ChoresList from './index';
+
+import chores from '@mocks/chores';
+
+<Meta title="atom/ChoresList" component={ChoresList} />
+
+# ChoresList
+
+The description for the Chores List component
+
+<Canvas withSource="open">
+  <Story name="Default">
+    <ChoresList chores={chores} />
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable of={ChoresList} />

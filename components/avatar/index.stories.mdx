@@ -1,0 +1,48 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import Avatar from './index';
+
+import users from '@mocks/users';
+
+<Meta title="atom/Avatar" component={Avatar} />
+
+# Avatar
+
+The 'Avatar' component is used to display a user's profile picture. If no image
+is provided then a users initials will be displayed.
+
+If the image is too large then it will be scaled down to fit within the
+component's bounds.
+
+If no user is passed to the component then it will display a default image.
+
+export const Template = (args) => (
+  <div style={{ height: '200px' }}>
+    <Avatar {...args} />
+  </div>
+);
+
+<Canvas withSource="open">
+  <Story
+    name="Assigned with image 1"
+    args={{
+      name: users[0].name,
+      imagePath: users[0].avatar
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Assigned no image"
+    args={{
+      name: users[0].name,
+      colour: '#ff0000'
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story name="Unassigned">{Template.bind({})}</Story>
+</Canvas>
+
+## Props
+
+<ArgsTable of={Avatar} />
