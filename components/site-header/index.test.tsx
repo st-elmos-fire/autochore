@@ -4,12 +4,12 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 // Import component files
-import Header from './index';
+import SiteHeader from './index';
 
 // Tests
-describe('Header component', () => {
+describe('SiteHeader component', () => {
   it('renders to match snapshot', () => {
-    const { baseElement } = render(<Header name="test" colour="blue" />);
+    const { baseElement } = render(<SiteHeader name="test" colour="blue" />);
     expect(baseElement).toMatchSnapshot();
   });
 });

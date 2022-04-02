@@ -1,0 +1,36 @@
+import { Meta, Story, Canvas, Props } from '@storybook/addon-docs/blocks';
+import SiteHeader from './index'
+
+<Meta
+  title="atom/SiteHeader"
+  component={SiteHeader}
+/>
+
+# SiteHeader
+
+The description for the Site Header component
+
+<Canvas withSource="open">
+  <Story name="Example-1">
+    <SiteHeader name="Test Name" colour="blue">
+      Hello World
+    </SiteHeader >
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Example-2">
+    <SiteHeader name="Test Name" colour="red">
+      Hello World
+    </SiteHeader >
+  </Story>
+  <Story name="Example-2-variant">
+    <SiteHeader name="Test Name" colour="green">
+      Hello World
+    </SiteHeader >
+  </Story>
+</Canvas>
+
+## Props
+
+<Props of={SiteHeader} />

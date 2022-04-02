@@ -16,10 +16,10 @@ export interface Props {
 }
 
 /* Render component */
-export const Header: React.FC<Props> = ({ name, colour }: Props) => (
+export const SiteHeader: React.FC<Props> = ({ name, colour }: Props) => (
   <div className={styles[colour]}>
     This is an example component, the name provided to it was {name}
   </div>
 );
 
-export default Header;
+export default SiteHeader;
