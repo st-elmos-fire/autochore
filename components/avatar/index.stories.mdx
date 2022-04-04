@@ -23,15 +23,6 @@ export const Template = (args) => (
 
 <Canvas withSource="open">
   <Story
-    name="Assigned with image 1"
-    args={{
-      name: users[0].name,
-      imagePath: users[0].avatar
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
     name="Assigned no image"
     args={{
       name: users[0].name,
@@ -41,6 +32,25 @@ export const Template = (args) => (
     {Template.bind({})}
   </Story>
   <Story name="Unassigned">{Template.bind({})}</Story>
+  <Story
+    name="Assigned with image"
+    args={{
+      name: users[0].name,
+      imagePath: users[0].avatar
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Assigned with image (fixed size)"
+    args={{
+      name: users[1].name,
+      imagePath: users[1].avatar,
+      size: '150px'
+    }}
+  >
+    {Template.bind({})}
+  </Story>
 </Canvas>
 
 ## Props

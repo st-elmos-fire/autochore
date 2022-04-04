@@ -21,6 +21,11 @@ export interface Props {
    * avatar to indicate that this has not been assigned to a person.
    */
   imagePath?: string;
+  /**
+   * The size of the avatar using CSS values.
+   * @default '100%'
+   */
+  size?: string;
 }
 
 const nameToInitials = (name: string) => {
@@ -30,11 +35,16 @@ const nameToInitials = (name: string) => {
 };
 
 /* Render component */
-export const Avatar: React.FC<Props> = ({ name, colour, imagePath }: Props) => {
+export const Avatar: React.FC<Props> = ({
+  name,
+  colour,
+  imagePath,
+  size
+}: Props) => {
   const initials = name ? nameToInitials(name) : '?';
   const viewBox = name ? '0 0 50 50' : '0 0 30 30';
   return (
-    <div className={styles.avatar}>
+    <div className={styles.avatar} style={{ height: size || '100%' }}>
       {imagePath ? (
         <img className={styles.image} src={imagePath} alt={name} />
       ) : (
