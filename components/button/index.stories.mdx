@@ -1,33 +1,125 @@
-import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
-import Button from './index';
+<!-- Button.stories.mdx -->
 
-<Meta title="atom/Button" component={Button} />
+import { Canvas, Meta, Story, Props } from '@storybook/addon-docs';
+
+import { FaBeer } from 'react-icons/fa';
+
+import { Button } from './index.tsx';
+
+<Meta title="Atom/Button" component={Button} />
 
 # Button
 
-The description for the Button component
+The Button component allows a user to place a button on the page
+
+> It's also possible to turn a regular button element
+> or link into a basic button by adding the `button` utility to it although that
+> method is cosmetic only and lacks the more advanced features of this component.
+
+## Primary
 
 <Canvas withSource="open">
-  <Story name="Example-1">
-    <Button name="Test Name" colour="blue">
-      Hello World
+  <Story name="Primary">
+    <Button variant="primary">Primary</Button>
+  </Story>
+  <Story name="Primary (disabled)">
+    <Button variant="primary" disabled>
+      Primary
     </Button>
   </Story>
 </Canvas>
 
-<Canvas>
-  <Story name="Example-2">
-    <Button name="Test Name" colour="red">
-      Hello World
+## Alternate
+
+<Canvas withSource="open">
+  <Story name="Alternate">
+    <Button variant="secondary">Alternate</Button>
+  </Story>
+  <Story name="Alternate (disabled)">
+    <Button variant="secondary" disabled>
+      Alternate
     </Button>
   </Story>
-  <Story name="Example-2-variant">
-    <Button name="Test Name" colour="green">
-      Hello World
+</Canvas>
+
+## Text only
+
+<Canvas withSource="open">
+  <Story name="Text">
+    <Button variant="text">Stealth Button</Button>
+  </Story>
+  <Story name="Text (disabled)">
+    <Button variant="text" disabled>
+      Stealth Button
+    </Button>
+  </Story>
+</Canvas>
+
+## Includes icons
+
+<Canvas withSource="open">
+  <Story name="With Left Icon">
+    <Button variant="primary" alignIcon="left">
+      <FaBeer />
+      Time for a beer!
+    </Button>
+  </Story>
+  <Story name="With Right Icon">
+    <Button variant="primary" alignIcon="right">
+      <FaBeer />
+      Time for beer!
+    </Button>
+  </Story>
+  <Story name="With Central Icon">
+    <Button variant="primary" alignIcon="center">
+      <FaBeer />
+      Time for a beer
+    </Button>
+  </Story>
+  <Story name="With Icon (disabled)">
+    <Button variant="primary" alignIcon="left" disabled>
+      <FaBeer />
+      Time for a beer!
+    </Button>
+  </Story>
+  <Story name="Icon only">
+    <Button variant="primary" iconOnly>
+      <FaBeer />
     </Button>
   </Story>
 </Canvas>
 
 ## Props
 
-<ArgsTable of={Button} />
+<Props of={Button} />
+
+## Usage
+
+### Use as a link
+
+A Button component can be used to style a link, however you must wrap the component
+in the correct routing method of your framework for it to work.
+
+e.g.
+
+```js
+<Link href="/marketplace">
+  <Button alignIcon="left">
+    <ArrowBack /> Return to Home page
+  </Button>
+</Link>
+```
+
+### Adding icons
+
+Anything can be used as a child of the button component and can be styled with
+the use of the `className` property. However the component has support for
+adding icons.
+
+Your icon should be either an `svg`, `img` or `picture` tag. Alternatively, you
+can just add an `.icon` class to any child element and it will be treated as an
+icon. You must then apply the `alignIcon` prop to the component which will align
+the icon correctly to either the `left` or `right`.
+
+For best results, we recommend using the
+[Material Icons from `material-ui`](https://material-ui.com/components/material-icons/)

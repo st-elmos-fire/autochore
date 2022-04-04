@@ -1,15 +1,20 @@
-/* global it expect */
-
 import React from 'react';
-import { render } from '@testing-library/react';
+import { cleanup, render, RenderResult } from '@testing-library/react';
 
-// Import component files
 import Button from './index';
 
-// Tests
+let renderResult: RenderResult;
+
 describe('Button component', () => {
-  it('renders to match snapshot', () => {
-    const { baseElement } = render(<Button name="test" colour="blue" />);
-    expect(baseElement).toMatchSnapshot();
+  beforeEach(() => {
+    renderResult = render(<Button onClick={() => true}>Test</Button>);
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('should match the most recent snapshot', () => {
+    expect(renderResult.baseElement).toMatchSnapshot();
   });
 });
