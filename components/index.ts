@@ -26,10 +26,10 @@ export { default as Date } from './date';
 
 export { default as Form } from './form';
 
-export { default as Header } from './header';
-
 export { default as Input } from './input';
 
 export { default as Modal } from './modal';
 
 export { default as Select } from './select';
+
+export { default as SiteHeader } from './site-header';

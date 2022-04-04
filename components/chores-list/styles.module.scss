@@ -1,13 +1,40 @@
-.chores-table {
+.chores-list {
+  border-radius: $border-radius;
+  box-shadow: 0 0 4px 0 lighten($col-neutral, 30%);
+  overflow: hidden;
   width: 100%;
 
-  thead {
+  th {
+    font-weight: bold;
+  }
+
+  th,
+  td {
+    padding: padding(2);
+  }
+}
+
+.chores-header tr {
+  display: grid;
+  grid-template-columns: 10fr 2fr 2fr;
+  width: 100%;
+
+  th {
     background-color: $col-primary;
     color: $col-lightest;
   }
+}
 
-  td,
-  th {
-    padding: padding(0.5);
+.chore-row {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 11fr 2fr 1fr 1fr;
+
+  &:nth-child(odd) {
+    background-color: lighten($col-neutral, 46%);
   }
+}
+
+.action-button {
+  font-size: 1.8rem;
 }

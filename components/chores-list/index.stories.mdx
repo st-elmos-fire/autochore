@@ -2,6 +2,7 @@ import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
 import ChoresList from './index';
 
 import chores from '@mocks/chores';
+import users from '@mocks/users';
 
 <Meta title="atom/ChoresList" component={ChoresList} />
 
@@ -11,7 +12,7 @@ The description for the Chores List component
 
 <Canvas withSource="open">
   <Story name="Default">
-    <ChoresList chores={chores} />
+    <ChoresList chores={chores} users={users}/>
   </Story>
 </Canvas>
 
