@@ -9,7 +9,7 @@ const chores: Chore[] = [
     priority: 3,
     exceptionType: 'none',
     existingChore: '',
-    assignee: 16874248,
+    assignee: 123,
     frequency: 'weekly',
     run_on: ['monday']
   },
@@ -45,7 +45,7 @@ const chores: Chore[] = [
     priority: 3,
     exceptionType: 'none',
     existingChore: '',
-    assignee: 0,
+    assignee: 456,
     frequency: 'weekly',
     run_on: ['monday']
   }
