@@ -1,5 +1,11 @@
+type HouseholdRole = 'admin' | 'member';
 export interface User {
-  todoist_id: number;
-  name: string;
+  id: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
   avatar: string;
+  household: string;
+  household_role: HouseholdRole;
 }

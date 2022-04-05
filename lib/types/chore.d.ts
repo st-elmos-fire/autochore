@@ -1,11 +1,11 @@
+type Dependency = ['none', 'blocked_by', 'dependent_on'];
 export interface Chore {
   id: string;
-  content: string;
+  name: string;
   description: string;
-  project_id: number;
-  priority: number;
-  exceptionType?: string;
-  existingChore?: string;
+  size: string;
+  dependency?: Dependency;
+  dependent?: string;
   assignee: number;
   frequency: string;
   run_on: string[];
