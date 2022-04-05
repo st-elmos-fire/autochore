@@ -8,26 +8,64 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model chores {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  assignee      Int
-  content       String
-  description   String
-  exceptionType String
-  existingChore String
-  frequency     String
-  priority      Int
-  project_id    Float
-  run_on        String[]
+type HouseholdsChores {
+  id String @db.ObjectId
 }
 
-model log {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+type HouseholdsMasterList {
+  id String @db.ObjectId
+}
+
+type HouseholdsMembers {
+  user_id   String @db.ObjectId
+  user_role String
+}
+
+//TODO: Add relationships
+
+type PresetsChores {
+  id            String   @map("_id") @db.ObjectId
+  description   String
+  frequency     String
+  household_ids String[] @db.ObjectId
+  name          String
+  run_on        String[]
+  size_id       String   @db.ObjectId
+}
+
+type PresetsSizes {
+  id          String @map("_id") @db.ObjectId
+  description String
+  name        String
+}
+
+type PresetsTemplates {
+  id          String   @map("_id") @db.ObjectId
+  description String
+  frequency   String
+  name        String
+  run_on      String[]
+}
+
+model households {
+  id          String                 @id @default(auto()) @map("_id") @db.ObjectId
+  chores      HouseholdsChores[]
+  master_list HouseholdsMasterList[]
+  members     HouseholdsMembers[]
+}
+
+model presets {
+  id        String             @id @default(auto()) @map("_id") @db.ObjectId
+  chores    PresetsChores[]
+  sizes     PresetsSizes[]
+  templates PresetsTemplates[]
 }
 
 model users {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
   avatar     String
-  name       String
-  todoist_id Int
+  email      String @unique
+  first_name String
+  last_name  String
+  username   String @unique
 }
