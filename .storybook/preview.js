@@ -69,7 +69,8 @@ const customViewports = {
   }
 };
 
-addParameters({
+export const parameters = {
+  viewMode: 'docs',
   options: {
     showSearchBox: true,
     storySort: {
@@ -101,4 +102,4 @@ addParameters({
   darkMode: {
     classTarget: 'html'
   }
-});
+};
