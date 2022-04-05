@@ -23,7 +23,7 @@ export interface Props {
 export const ChoresList: React.FC<Props> = ({ chores, users }: Props) => {
   // convert assignee to user
   const assigneeToUser = (assignee: number) => {
-    const user = users.find((user) => user.todoist_id === assignee);
+    const user = users.find((user) => user.id === assignee);
     return user ? user : null;
   };
 
@@ -33,14 +33,17 @@ export const ChoresList: React.FC<Props> = ({ chores, users }: Props) => {
         <thead className={styles['chores-header']}>
           <tr>
             <th>Chore</th>
+            <th>Frequency</th>
             <th>Assignee</th>
-            <th>Actions</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody className={styles['chores-body']}>
           {chores.map((chore) => (
             <tr className={styles['chore-row']} key={chore.id}>
-              <th>{chore.content}</th>
+              <th>{chore.name}</th>
+              <th>{chore.frequency}</th>
               <td>
                 <Avatar
                   name={assigneeToUser(chore.assignee)?.name || undefined}
