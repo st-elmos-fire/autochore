@@ -1,0 +1,39 @@
+$states: (
+  error: $col-danger,
+  success: $col-success,
+  warning: $col-warning
+);
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: margin(1);
+  position: relative;
+
+  @each $state, $color in $states {
+    &.#{$state} {
+      input,
+      select,
+      textarea {
+        border-color: $color;
+      }
+
+      .state-message {
+        color: $color;
+      }
+    }
+  }
+
+  .helper-text {
+    @include fs-small-body();
+
+    color: $col-body-text-light;
+    margin-top: margin(0.5);
+  }
+
+  .input-label {
+    @include fs-button-text();
+
+    color: $col-body-text;
+  }
+}

@@ -24,9 +24,11 @@ export { default as ChoresList } from './chores-list';
 
 export { default as Date } from './date';
 
-export { default as Form } from './form';
-
 export { default as Input } from './input';
+
+export { default as InputContainer } from './input-container';
+
+export { default as LoginForm } from './login-form';
 
 export { default as Modal } from './modal';
 

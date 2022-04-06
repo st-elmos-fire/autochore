@@ -1,0 +1,70 @@
+import { Meta, Story, Canvas, Props } from '@storybook/addon-docs/blocks';
+import { InputContainer, Input } from '@components';
+
+<Meta title="molecule/InputContainer" component={InputContainer} />
+
+# InputContainer
+
+The InputContainer is a container for the various input components. This is the component which handles labels, validation messages and helper text.
+
+One one input should be placed in each InputContainer. The exception to this is when you are grouping elements together, such as a group of radio buttons.
+
+<div class="tip-wrapper">
+  <span class="warning">Warning</span>
+  This component should not be used in isolation or with an non-input component.{' '}
+  <strong>Weird</strong> stuff could happen.
+</div>
+
+<Canvas withSource="open">
+  <Story name="Default">
+    <InputContainer inputName="Test Name" labelText="Test Input">
+      <Input name="Test Name" placeholder="Test Placeholder" type="text" />
+    </InputContainer>
+  </Story>
+  <Story name="Error State">
+    <InputContainer
+      inputName="Test Name"
+      labelText="Test Input"
+      inputState="error"
+      stateMessage="Test error message"
+    >
+      <Input name="Test Name" placeholder="Test Placeholder" type="text" />
+    </InputContainer>
+  </Story>
+  <Story name="Warning State">
+    <InputContainer
+      inputName="Test Name"
+      labelText="Test Input"
+      inputState="warning"
+      stateMessage="Test warning message"
+    >
+      <Input name="Test Name" placeholder="Test Placeholder" type="text" />
+    </InputContainer>
+  </Story>
+  <Story name="Success State">
+    <InputContainer
+      inputName="Test Name"
+      labelText="Test Input"
+      inputState="success"
+      stateMessage="Test success message"
+    >
+      <Input name="Test Name" placeholder="Test Placeholder" type="text" />
+    </InputContainer>
+  </Story>
+</Canvas>
+
+<Canvas withSource="open">
+  <Story name="InputContainer with helper text">
+    <InputContainer
+      inputName="Test Name"
+      labelText="Test Input"
+      helperText="Test helper text"
+    >
+      <Input name="Test Name" placeholder="Test Placeholder" type="text" />
+    </InputContainer>
+  </Story>
+</Canvas>
+
+## Props
+
+<Props of={InputContainer} />

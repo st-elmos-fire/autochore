@@ -4,7 +4,7 @@ import classNames from 'classnames';
 /* Import Stylesheet */
 import styles from './styles.module.scss';
 
-type InputType =
+export type InputTypes =
   | 'text'
   | 'password'
   | 'email'
@@ -22,7 +22,7 @@ export interface Props {
   /**
    * The type of input to display (text, password, email, etc)
    */
-  type: InputType;
+  type: InputTypes;
   /**
    * Is the input required?
    */
@@ -43,6 +43,10 @@ export interface Props {
    * The input value
    */
   value?: string;
+  /**
+   * The event handler for when the input value changes
+   */
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const cx = classNames.bind(styles);
@@ -55,7 +59,8 @@ export const Input: React.FC<Props> = ({
   placeholder,
   disabled,
   readonly,
-  value
+  value,
+  onChange
 }: Props) => (
   <input
     className={cx(styles['input'], styles[`type-${type}`])}
@@ -67,6 +72,7 @@ export const Input: React.FC<Props> = ({
     disabled={disabled}
     readOnly={readonly}
     value={value}
+    onChange={(e) => (onChange ? onChange(e) : null)}
   />
 );
 

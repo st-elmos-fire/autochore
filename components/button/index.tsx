@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { FaSpinner } from 'react-icons/fa';
 
 /* Import Types */
-interface Props extends React.ComponentProps<'button'> {
+export interface Props extends React.ComponentProps<'button'> {
   /**
    * The if you want to include an icon, this specifies the side of the button the icon should appear on.
    */

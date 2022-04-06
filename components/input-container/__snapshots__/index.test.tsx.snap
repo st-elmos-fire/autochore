@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputContainer component renders to match snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="input-container"
+    >
+      <label
+        class="input-label"
+        for="Test Name"
+      >
+        Test Input
+      </label>
+      <input
+        type="text"
+      />
+    </div>
+  </div>
+</body>
+`;
