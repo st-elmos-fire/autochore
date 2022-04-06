@@ -16,13 +16,6 @@ type HouseholdsMasterList {
   id String @db.ObjectId
 }
 
-type HouseholdsMembers {
-  user_id   String @db.ObjectId
-  user_role String
-}
-
-//TODO: Add relationships
-
 type PresetsChores {
   id            String   @map("_id") @db.ObjectId
   description   String
@@ -49,9 +42,10 @@ type PresetsTemplates {
 
 model households {
   id          String                 @id @default(auto()) @map("_id") @db.ObjectId
+  admins      users[]                @relation(name: "household_admins")
   chores      HouseholdsChores[]
   master_list HouseholdsMasterList[]
-  members     HouseholdsMembers[]
+  members     users[]                @relation(name: "household_members")
 }
 
 model presets {
@@ -62,10 +56,13 @@ model presets {
 }
 
 model users {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  avatar     String
-  email      String @unique
-  first_name String
-  last_name  String
-  username   String @unique
+  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  avatar           String
+  email            String
+  first_name       String
+  last_name        String
+  username         String
+  householdsAdmin  households? @relation("household_admins", fields: [householdsId], references: [id])
+  householdsId     String?     @db.ObjectId
+  householdsMember households? @relation("household_members", fields: [householdsId], references: [id])
 }
