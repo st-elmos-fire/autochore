@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputText component renders to match snapshot 1`] = `
+<body>
+  <div>
+    <input
+      class="input type-text"
+      id="test"
+      name="test"
+      type="text"
+      value=""
+    />
+  </div>
+</body>
+`;

@@ -7,9 +7,9 @@ import { render } from '@testing-library/react';
 import Input from './index';
 
 // Tests
-describe('Input component', () => {
+describe('InputText component', () => {
   it('renders to match snapshot', () => {
-    const { baseElement } = render(<Input name="test" colour="blue" />);
+    const { baseElement } = render(<Input name="test" type="text" />);
     expect(baseElement).toMatchSnapshot();
   });
 });

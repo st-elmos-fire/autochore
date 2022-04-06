@@ -1,33 +1,77 @@
-import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import { Meta, Story, Canvas, Props } from '@storybook/addon-docs/blocks';
 import Input from './index';
 
 <Meta title="atom/Input" component={Input} />
 
 # Input
 
-The description for the Input component
+The input component is used to collect user input it is used in conjunction with
+the [inputContainer](?path=/docs/atom-inputcontainer) component and (depdending on circumstances), the [form]()
+component.
+
+## UI Preview
+
+### Text Input
 
 <Canvas withSource="open">
-  <Story name="Example-1">
-    <Input name="Test Name" colour="blue">
-      Hello World
-    </Input>
+  <Story name="Text">
+    <Input name="Test Name" type="text" />
+  </Story>
+  <Story name="Disabled">
+    <Input
+      name="Test Name"
+      type="text"
+      disabled
+      value="This input is disabled"
+    />
+  </Story>
+  <Story name="Read only">
+    <Input
+      name="Test Name"
+      type="text"
+      readonly
+      value="This input is read only"
+    />
   </Story>
 </Canvas>
 
-<Canvas>
-  <Story name="Example-2">
-    <Input name="Test Name" colour="red">
-      Hello World
-    </Input>
+### Number Input
+
+<Canvas withSource="open">
+  <Story name="Number">
+    <Input name="Test Name" type="number" />
   </Story>
-  <Story name="Example-2-variant">
-    <Input name="Test Name" colour="green">
-      Hello World
-    </Input>
+</Canvas>
+
+### File picker mode
+
+<Canvas withSource="open">
+  <Story name="File picker">
+    <Input name="Test Name" type="file" />
+  </Story>
+</Canvas>
+
+### Mobile only types
+
+The following types do not do anything exciting on desktop devices,
+however on a mobile device, they will change the users keyboard to
+include extra features. Such as a number pad or a '.com' button.
+
+Appearance-wise, they all appear as a reuglar text input, so it makes sense to
+group them together, view this page on mobile to see the differences.
+
+<Canvas withSource="open" columns={3}>
+  <Story name="Telephone number">
+    <Input name="Test Name" type="tel" />
+  </Story>
+  <Story name="Email address">
+    <Input name="Test Name" type="email" />
+  </Story>
+  <Story name="URL">
+    <Input name="Test Name" type="url" />
   </Story>
 </Canvas>
 
 ## Props
 
-<ArgsTable of={Input} />
+<Props of={Input} />
