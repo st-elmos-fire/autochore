@@ -25,8 +25,9 @@
     "postinstall": "husky install",
     "preflight": "run-p genreg test:ts test:audit lint prettier-write",
     "prepush": "run-p genreg test lint",
-    "storybook": "start-storybook -p 6006 --docs",
-    "build-storybook": "build-storybook"
+    "sbdocs": "start-storybook -- -p 6006 --docs",
+    "storybook": "run-p genreg sbdocs",
+    "build-storybook": "run-p genreg build-storybook"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",

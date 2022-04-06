@@ -11,8 +11,6 @@ import MainTemplate from '@templates/main';
 import getData from '@helpers/get-from-database';
 
 const IndexPage: React.FC = () => {
-  const [chores, setChores] = useState<Chore[]>([]);
-
   useEffect(() => {
     getData('get-chores').then((data) => {
       setChores(data);
@@ -22,12 +20,7 @@ const IndexPage: React.FC = () => {
   return (
     <MainTemplate>
       <h1>Hello world</h1>
-      <h2>Here is a list of chores</h2>
-      <ul>
-        {chores.map((chore: Chore) => (
-          <li key={chore.id}>{chore.name}</li>
-        ))}
-      </ul>
+      <h2>Here is your household management panel</h2>
     </MainTemplate>
   );
 };

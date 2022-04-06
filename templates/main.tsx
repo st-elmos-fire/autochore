@@ -1,16 +1,24 @@
 import * as React from 'react';
 
 import Head from 'next/head';
-import { useContext, useState } from 'react';
-
+import { useContext, useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth, logout } from '@firebase';
+import { useRouter } from 'next/router';
 interface Props {
   children: React.ReactNode;
 }
 
 const MainTemplate: React.FC<Props> = ({ children }) => {
-  const [open, setOpen] = useState(true);
+  const [user, loading, error] = useAuthState(auth);
+  const router = useRouter();
 
-  const toggleDrawer = () => setOpen(!open);
+  useEffect(() => {
+    if (loading) return;
+    if (!user) router.push('/auth/login');
+  }, [user, loading]);
+
+  console.log(user);
 
   return (
     <>
@@ -19,7 +27,10 @@ const MainTemplate: React.FC<Props> = ({ children }) => {
         <meta name="description" content="Add your chores here!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>{children}</main>
+      <main>
+        {user && <h1>Welcome {user && user.email}</h1>}
+        {children}
+      </main>
     </>
   );
 };
