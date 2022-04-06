@@ -18,6 +18,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "useUnknownInCatchVariables": false,
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
@@ -29,6 +30,9 @@
       ],
       "@mocks/*": [
         "lib/mocks/*"
+      ],
+      "@firebase/*": [
+        "firebase/*"
       ],
       "@typedefs/*": [
         "lib/types/*"
@@ -56,6 +60,9 @@
       ],
       "@theme": [
         "theme/index.scss"
+      ],
+      "@firebase": [
+        "firebase/index"
       ]
     },
     "incremental": true
