@@ -37,16 +37,24 @@ module.exports = withPlugins([withImages, {
   },
   async headers() {
     // Default content security policy
-    const cspString = process.env.NODE_ENV === 'development' ? ["'self'", "'unsafe-inline'", "'unsafe-eval'"] : ["'self'"]
+    const defaults = process.env.NODE_ENV === 'development' ? ["'self'", "'unsafe-inline'", "'unsafe-eval'"] : ["'self'"]
     // Add additional content security policy directives
-    const connectSrc =  cspString.concat([process.env.NEXT_PUBLIC_API_ROOT])
+    const firebase = [
+      process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+      process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+      'https://apis.google.com',
+      'https://*.gstatic.com',
+      'https://*.firebaseio.com',
+      'https://*.firebasedatabase.app',
+      'https://*.googleapis.com'
+    ];
+    const cspString =  defaults.concat(...firebase)
     return [{
       source: "/(.*)",
       headers: createSecureHeaders({
         contentSecurityPolicy: {
           directives: {
             defaultSrc: cspString,
-            connectSrc,
             styleSrc: cspString,
             scriptSrc: cspString
           },
